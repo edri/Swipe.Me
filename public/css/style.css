@@ -79,6 +79,14 @@ body {
     margin-left: 10px !important;
 }
 
+.error-hashtags {
+    margin: 20px 0 0 0 !important;
+}
+
+.pictures {
+    display: none;
+}
+
 .picture-wrapper {
     background-color: white;
     border: 1px solid gray;
