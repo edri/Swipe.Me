@@ -7,7 +7,8 @@ var session = require('express-session');
 
 const CLIENT_ID = "ba3659e9c0974ab39393e07eb031e05d";
 const CLIENT_SECRET = "d2e338bbc4b8440abd2dc6a952166c0a";
-const APPLICATION_URL = "http://localhost:3028";
+// CHANGE FOR PRODUCTION.
+const APPLICATION_URL = "https://swipe-me.herokuapp.com";
 const APPLICATION_NAME = "Swipe.Me";
 
 /* GET home page. */
