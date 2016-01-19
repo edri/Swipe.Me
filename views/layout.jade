@@ -1,0 +1,25 @@
+doctype html
+html(lang='en' ng-app="InstaPicGram")
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport', content='width=device-width')
+        title= title
+        block css
+            if ENV_DEVELOPMENT
+                link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.css')
+            else
+                link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.min.css')
+            link(rel='stylesheet', href='/css/style.css')
+        block js
+            if ENV_DEVELOPMENT
+                script(src='/components/jquery/dist/jquery.js')
+                script(src='/components/bootstrap/dist/js/bootstrap.js')
+            else
+                script(src='/components/jquery/dist/jquery.min.js')
+                script(src='/components/bootstrap/dist/js/bootstrap.min.js')
+            // Angular files.
+            script(src='/components/angular/angular.js')
+            script(src='/js/app.js')
+
+    body(ng-controller="PageController")
+        block content

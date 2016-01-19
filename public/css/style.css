@@ -1,0 +1,157 @@
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), url('/fonts/GoogleRaleway.woff2') format('woff2');
+}
+
+body {
+    background: rgba(0, 0, 0, 0) url("/img/background.jpg") no-repeat scroll 0 0 / 100% auto;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
+    padding: 0 50px 50px 50px;
+    text-align: center;
+}
+
+a {
+    color: #00B7FF;
+}
+
+.title {
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    font-size: 38px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+    margin: auto;
+    padding: 20px;
+    width: 800px;
+}
+
+.btn-show-pics {
+    border-radius: 4px !important;
+    margin-left: 10px !important;
+}
+
+.picture-wrapper {
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    height: 658px;
+    margin: 50px 0 40px 50%;
+    position: absolute;
+    transform: translateX(calc(-50% - 50px));
+    transition: margin-top 500ms, transform 750ms;
+    width: 558px;
+}
+
+.picture-wrapper-liked {
+    margin-top: 0;
+    transform: translateX(50vw) rotate(90deg);
+}
+
+.picture-wrapper-rejected {
+    margin-top: 0;
+    transform: translateX(calc(-50vw - 760px)) rotate(-90deg);
+}
+
+.paperclip {
+    position: absolute;
+    right: 30px;
+    top: -7px;
+    transition: opacity 250ms;
+    z-index: 2;
+}
+
+.paperclip-transparent {
+    opacity: 0.15;
+}
+
+.note {
+    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #fefdca 0%, #f7f381 100%) repeat scroll 0 0;
+    border: 1px solid black;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    text-align: left;
+    transform: rotate(5deg);
+    transition: opacity 250ms;
+    width: 200px;
+    z-index: 1;
+}
+
+.note-transparent {
+    opacity: 0.15;
+}
+
+.hashtags-section {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 178px;
+}
+
+.note-separation {
+    border-color: #ddb730 -moz-use-text-color -moz-use-text-color;
+    margin: 8px 0 5px;
+}
+
+.picture {
+    background-color: #DDD;
+    border-radius: 5px;
+    height: 556px;
+    padding: 30px;
+    width: 556px;
+}
+
+.picture-buttons {
+    height: 100px;
+    padding: 15px 40px;
+    position: relative;
+}
+
+.reject-button, .like-button {
+    border: 1px solid black;
+    border-radius: 35px;
+    cursor: pointer;
+    height: 70px;
+    padding: 10px;
+    width: 70px;
+}
+
+.reject-button {
+    background: rgba(0, 0, 0, 0) url("/img/cancel.png") no-repeat scroll 14px 14px / 40px 40px;
+    float: left;
+}
+
+.reject-button:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.like-button {
+    background: rgba(0, 0, 0, 0) url("/img/like_not_filled.png") no-repeat scroll 14px 18px / 40px 35px;
+    float: right;
+}
+
+.like-button:hover, .like-button-active {
+    background: rgba(0, 0, 0, 0.15) url("/img/like_filled.png") no-repeat scroll 14px 18px / 40px 35px;
+}
+
+.arrows-info {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 300px;
+}
