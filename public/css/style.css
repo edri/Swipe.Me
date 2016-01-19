@@ -13,6 +13,29 @@ body {
     text-align: center;
 }
 
+.status-bar {
+    color: white;
+    top: 0;
+    left: 0;
+    padding: 10px 20px;
+    position: fixed;
+    text-align: right;
+    width: 100%;
+}
+
+.username-link {
+    color: #E7DFDC;
+    font-weight: bold;
+}
+
+.username-link:hover, .username-link:focus, .username-link:active {
+    color: #E7DFDC;
+}
+
+.btn-disconnect {
+    margin-left: 10px;
+}
+
 .title {
     color: white;
     font-family: 'Raleway', sans-serif;
@@ -20,6 +43,16 @@ body {
     font-weight: bold;
     margin-bottom: 12px;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.error {
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+    margin: 50px auto;
+    width: 800px;
+}
+
+.error-content {
+    padding: 20px;
 }
 
 .header {
@@ -30,6 +63,10 @@ body {
     margin: auto;
     padding: 20px;
     width: 800px;
+}
+
+.header-not-connected {
+    margin-top: 50px;
 }
 
 .policy-header {
@@ -176,6 +213,6 @@ body {
     text-decoration: underline;
 }
 
-.policy-link:hover, .policy-link:active {
+.policy-link:hover, .policy-link:focus, .policy-link:active {
     color: #ACADBA;
 }

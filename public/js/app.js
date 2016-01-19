@@ -3,8 +3,7 @@
         .controller("PageController", function($scope) {
             // Indicates the maximum number of displayed pictures at the same time.
             const MAX_IMAGES = 3;
-            // Indicates whether the user is currently connected or not.
-            $scope.isConnected = true;
+
             $scope.isMouseOverPicture = false;
             $scope.isMouseOverNote = false;
             $scope.isPictureRejected = false;

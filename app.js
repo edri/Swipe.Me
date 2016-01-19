@@ -28,8 +28,15 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// Set session of 10 minutes.
+app.use(routes.session({
+    secret: 'KJD9UIcn93iD$93#awZ',
+    resave: true,
+    saveUninitialized: false,
+    cookie: {maxAge: 600000}
+}));
 
-app.use('/', routes);
+app.use('/', routes.router);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -64,6 +71,5 @@ app.use(function(err, req, res, next) {
         title: 'error'
     });
 });
-
 
 module.exports = app;

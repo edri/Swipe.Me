@@ -3,56 +3,70 @@ extends layout
 block content
     h1.title #{title}
     
-    .header
-        .connect-message(ng-if='!isConnected')
-            // TODO: https://www.instagram.com/oauth/authorize/?client_id=ba3659e9c0974ab39393e07eb031e05d&redirect_uri=http://localhost:3028/&response_type=code
-            | Please 
-            a(href='#') connect
-            |  in order to use the application.
-            br
-            a(href='/policy') Read #{title}'s policy
-        .connected-content(ng-if='isConnected')
-            .input-group
-                span.input-group-addon #
-                input.form-control#hashtagsInput(name='hashtags' ng-model='hashtags' placeholder='Please enter some hashtags separated with spaces (e.g. "#pizza #foodporn")' type='text')
-                .input-group-btn
-                    button.btn.btn-primary.btn-show-pics(data-toggle='tooltip' data-placement='bottom' title='Let me show you pictures related to the tags you entered. You can either like or reject them as your convinence!') Show me some pics!
-                    // TODO: UNFOCUS FIELD.
-                
-    section(ng-if='isConnected')
-        .picture-wrapper#picture3
-            img.picture(src='/img/tmp.jpg')
-            .picture-buttons
-                .reject-button
-                .like-button
+    if error
+        .panel.panel-danger.error
+            .panel-heading.error-content
+                | Something wrong happend when trying to connect to Instagram, please 
+                a(href='https://www.instagram.com/oauth/authorize/?client_id=ba3659e9c0974ab39393e07eb031e05d&redirect_uri=#{appplicationUrl}/auth&response_type=code') retry
+                |  in a while.
+    else if !username
+        .header.header-not-connected
+            .connect-message(ng-if='!isConnected()')
+                p
+                    | Please 
+                    a(href='https://www.instagram.com/oauth/authorize/?client_id=ba3659e9c0974ab39393e07eb031e05d&redirect_uri=#{appplicationUrl}/auth&response_type=code') connect
+                    |  in order to use the application.
+                br
+                a(href='/policy') Read more here about the policy of #{title}.
+    else
+        .status-bar
+            | Connected as 
+            a.username-link(href='https://www.instagram.com/#{username}/') #{username}
+            a.btn.btn-xs.btn-primary.btn-disconnect(href='/logout') Disconnect
+    
+        .header
+            .connected-content
+                .input-group
+                    span.input-group-addon #
+                    input.form-control#hashtagsInput(name='hashtags' ng-model='hashtags' placeholder='Please enter some hashtags separated with spaces (e.g. "#pizza #foodporn")' type='text')
+                    .input-group-btn
+                        button.btn.btn-primary.btn-show-pics(data-toggle='tooltip' data-placement='bottom' title='Let me show you pictures related to the tags you entered. You can either like or reject them as your convinence!') Show me some pics!
+                        // TODO: UNFOCUS FIELD.
+                    
+        section
+            .picture-wrapper#picture3
+                img.picture(src='/img/tmp.jpg')
+                .picture-buttons
+                    .reject-button
+                    .like-button
 
-        .picture-wrapper#picture2
-            img.picture(src='/img/tmp.jpg')
-            .picture-buttons
-                .reject-button
-                .like-button
+            .picture-wrapper#picture2
+                img.picture(src='/img/tmp.jpg')
+                .picture-buttons
+                    .reject-button
+                    .like-button
 
-                
-        .picture-wrapper#picture1(ng-class='{"picture-wrapper-liked": isPictureLiked, "picture-wrapper-rejected": isPictureRejected}')
-            img.paperclip(ng-class='{"paperclip-transparent": isMouseOverPicture || isMouseOverNote}' src='/img/paperclip.png')
-            .note(ng-class='{"note-transparent": isMouseOverPicture}' ng-mouseleave='isMouseOverNote = false' ng-mouseover='isMouseOverNote = true')
-                .hashtags-section
-                    | #pizza #foodporn #instalike #osef #test #tmp #lololo #meuuuuuh
-                hr.note-separation
-                strong 
-                    | Author: 
-                    a(href='https://www.instagram.com/miguel_s28/') miguel_s28
-            img.picture(ng-mouseleave='isMouseOverPicture = false' ng-mouseover='isMouseOverPicture = true' src='/img/tmp.jpg')
-            .picture-buttons
-                .reject-button#reject-button(data-toggle='tooltip' data-placement='top' ng-click='isPictureRejected = true'  title="Meh, I dont like it.")
-                span.arrows-info
-                    | Press 
-                    span.glyphicon.glyphicon-arrow-left
-                    |  or 
-                    span.glyphicon.glyphicon-arrow-right
-                    |  keys to quickly make a choice.
-                .like-button#like-button(data-toggle='tooltip' data-placement='top' ng-class='{"like-button-active": isPictureLiked}' ng-click='isPictureLiked = true' title='Amazing, take my like!')
+                    
+            .picture-wrapper#picture1(ng-class='{"picture-wrapper-liked": isPictureLiked, "picture-wrapper-rejected": isPictureRejected}')
+                img.paperclip(ng-class='{"paperclip-transparent": isMouseOverPicture || isMouseOverNote}' src='/img/paperclip.png')
+                .note(ng-class='{"note-transparent": isMouseOverPicture}' ng-mouseleave='isMouseOverNote = false' ng-mouseover='isMouseOverNote = true')
+                    .hashtags-section
+                        | #pizza #foodporn #instalike #osef #test #tmp #lololo #meuuuuuh
+                    hr.note-separation
+                    strong 
+                        | Author: 
+                        a(href='https://www.instagram.com/miguel_s28/') miguel_s28
+                img.picture(ng-mouseleave='isMouseOverPicture = false' ng-mouseover='isMouseOverPicture = true' src='/img/tmp.jpg')
+                .picture-buttons
+                    .reject-button#reject-button(data-toggle='tooltip' data-placement='top' ng-click='isPictureRejected = true'  title="Meh, I dont like it.")
+                    span.arrows-info
+                        | Press 
+                        span.glyphicon.glyphicon-arrow-left
+                        |  or 
+                        span.glyphicon.glyphicon-arrow-right
+                        |  keys to quickly make a choice.
+                    .like-button#like-button(data-toggle='tooltip' data-placement='top' ng-class='{"like-button-active": isPictureLiked}' ng-click='isPictureLiked = true' title='Amazing, take my like!')
 
-        .footer
-            .page-author Miguel Santamaria, 2016
-            a.policy-link(href='/policy') Policy
+    .footer
+        .page-author Miguel Santamaria, 2016
+        a.policy-link(href='/policy') Policy
