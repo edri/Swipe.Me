@@ -83,6 +83,11 @@ body {
     margin: 20px 0 0 0 !important;
 }
 
+.result-information {
+    font-size: 12px;
+    margin-top: 10px;
+}
+
 .pictures {
     display: none;
 }
@@ -92,12 +97,12 @@ body {
     border: 1px solid gray;
     border-radius: 5px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-    height: 658px;
+    height: 638px;
     margin: 50px 0 40px 50%;
     position: absolute;
     transform: translateX(calc(-50% - 50px));
-    transition: margin-top 450ms, transform 750ms;
-    width: 558px;
+    transition: margin-top 400ms, transform 750ms;
+    width: 538px;
 }
 
 .picture-wrapper-liked {
@@ -156,9 +161,9 @@ body {
 .picture {
     background-color: #E7DFDC;
     border-radius: 5px;
-    height: 556px;
+    height: 536px;
     padding: 30px;
-    width: 556px;
+    width: 536px;
 }
 
 .picture-buttons {

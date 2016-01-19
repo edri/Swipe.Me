@@ -8,8 +8,8 @@ var session = require('express-session');
 const CLIENT_ID = "ba3659e9c0974ab39393e07eb031e05d";
 const CLIENT_SECRET = "d2e338bbc4b8440abd2dc6a952166c0a";
 // CHANGE FOR PRODUCTION.
-const APPLICATION_URL = "https://swipe-me.herokuapp.com";
-//const APPLICATION_URL = "http://localhost:3028";
+//const APPLICATION_URL = "https://swipe-me.herokuapp.com";
+const APPLICATION_URL = "http://localhost:3028";
 const APPLICATION_NAME = "Swipe.Me";
 
 /* GET home page. */
@@ -21,7 +21,8 @@ router.get('/', function(req, res) {
     // status. Also send an error if there is one.
     res.render('index', {
         title: APPLICATION_NAME,
-        appplicationUrl: APPLICATION_URL,
+        applicationUrl: APPLICATION_URL,
+        clientId: CLIENT_ID,
         username: req.session.username,
         accessToken: req.session.accessToken,
         error: error
@@ -83,7 +84,11 @@ router.get('/logout', function(req, res) {
 
 /* GET policy page. */
 router.get('/policy', function(req, res) {
-    res.render('policy', { title: 'Policy', applicationName: APPLICATION_NAME });
+    res.render('policy', {
+        title: 'Policy',
+        applicationName: APPLICATION_NAME,
+        username: req.session.username
+    });
 });
 
 module.exports = {router, session};

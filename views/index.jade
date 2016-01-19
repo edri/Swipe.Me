@@ -7,23 +7,18 @@ block content
         .panel.panel-danger.error
             .panel-heading.error-content
                 | Something wrong happened when trying to connect to Instagram, please 
-                a(href='https://www.instagram.com/oauth/authorize/?client_id=ba3659e9c0974ab39393e07eb031e05d&redirect_uri=#{appplicationUrl}/auth&response_type=code') retry
+                a(href='https://www.instagram.com/oauth/authorize/?client_id=#{clientId}&redirect_uri=#{applicationUrl}/auth&response_type=code&scope=public_content+likes') retry
                 |  in a while.
     else if !username
         .header.header-not-connected
             .connect-message(ng-if='!isConnected()')
                 p
                     | Please 
-                    a(href='https://www.instagram.com/oauth/authorize/?client_id=ba3659e9c0974ab39393e07eb031e05d&redirect_uri=#{appplicationUrl}/auth&response_type=code') connect
+                    a(href='https://www.instagram.com/oauth/authorize/?client_id=#{clientId}&redirect_uri=#{applicationUrl}/auth&response_type=code&scope=public_content+likes') connect
                     |  in order to use the application.
                 br
                 a(href='/policy') Read more here about the policy of #{title}.
     else
-        .status-bar
-            | Connected as 
-            a.username-link(href='https://www.instagram.com/#{username}/') #{username}
-            a.btn.btn-xs.btn-primary.btn-disconnect(href='/logout') Disconnect
-    
         .header(ng-init='accessToken = "#{accessToken}"')
             .connected-content
                 .input-group
@@ -34,6 +29,9 @@ block content
                 .panel.panel-danger.error-hashtags(ng-if='errorHashtags')
                     .panel-heading.error-content
                         {{errorHashtags}}
+                .result-information(ng-if='resultInformation')
+                    {{resultInformation}}
+                    
                     
         section.pictures#pictures
             .picture-wrapper#picture3
@@ -49,16 +47,16 @@ block content
                     .like-button
 
                     
-            .picture-wrapper#picture1(ng-class='{"picture-wrapper-liked": isPictureLiked, "picture-wrapper-rejected": isPictureRejected}')
+            .picture-wrapper#picture1(ng-class='{"picture-wrapper-liked": isPictureLiked, "picture-wrapper-rejected": isPictureRejected}' ng-if='pictures[0]')
                 img.paperclip(ng-class='{"paperclip-transparent": isMouseOverPicture || isMouseOverNote}' src='/img/paperclip.png')
                 .note(ng-class='{"note-transparent": isMouseOverPicture}' ng-mouseleave='isMouseOverNote = false' ng-mouseover='isMouseOverNote = true')
                     .hashtags-section
-                        | #pizza #foodporn #instalike #osef #test #tmp #lololo #meuuuuuh
+                        {{pictures[0].description}}
                     hr.note-separation
                     strong 
                         | Author: 
-                        a(href='https://www.instagram.com/miguel_s28/') miguel_s28
-                img.picture(ng-mouseleave='isMouseOverPicture = false' ng-mouseover='isMouseOverPicture = true' src='/img/tmp.jpg')
+                        a(href='https://www.instagram.com/{{pictures[0].username}}/' target='_blank') {{pictures[0].username}}
+                img.picture(alt='{{pictures[0].description}}' ng-mouseleave='isMouseOverPicture = false' ng-mouseover='isMouseOverPicture = true' ng-src='{{pictures[0].url}}')
                 .picture-buttons
                     .reject-button#reject-button(data-toggle='tooltip' data-placement='top' ng-click='isPictureRejected = true'  title="Meh, I dont like it.")
                     span.arrows-info
@@ -68,7 +66,3 @@ block content
                         span.glyphicon.glyphicon-arrow-right
                         |  keys to quickly make a choice.
                     .like-button#like-button(data-toggle='tooltip' data-placement='top' ng-class='{"like-button-active": isPictureLiked}' ng-click='isPictureLiked = true' title='Amazing, take my like!')
-
-    .footer
-        .page-author Miguel Santamaria, 2016
-        a.policy-link(href='/policy') Policy

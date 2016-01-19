@@ -22,4 +22,14 @@ html(lang='en' ng-app="InstaPicGram")
             script(src='/js/app.js')
 
     body(ng-controller="PageController")
+        if username
+            .status-bar
+                | Connected as 
+                a.username-link(href='https://www.instagram.com/#{username}/' target='_blank') #{username}
+                a.btn.btn-xs.btn-primary.btn-disconnect(href='/logout') Disconnect
+    
         block content
+        
+        .footer
+            .page-author Miguel Santamaria, 2016
+            a.policy-link(href='/policy') Policy
