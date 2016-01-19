@@ -23,7 +23,7 @@ body {
 }
 
 .header {
-    background-color: #E7DFDC;
+    background-color: white;
     border: 1px solid black;
     border-radius: 3px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
