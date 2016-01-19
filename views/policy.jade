@@ -1,0 +1,20 @@
+extends layout
+
+block content
+    h1.title #{title}
+    
+    .header.policy-header
+        p
+            | By using 
+            strong #{applicationName}
+            |  you agree to the following policy. We reserve the right to change this policy at any time without notice, so please check it regularly.
+        ol
+            li All actions are secured and pass through the Instagram official API.
+            li We won't save or sell any of your private data.
+            li We will never make actions you did not wanted. 
+            li The only thing we do with your account is liking pictures you personally liked in 
+                strong #{applicationName}
+                | .
+        
+        br
+        a(href='/') Got it, please send me back.

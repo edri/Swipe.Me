@@ -9,6 +9,8 @@ block content
             | Please 
             a(href='#') connect
             |  in order to use the application.
+            br
+            a(href='/policy') Read #{title}'s policy
         .connected-content(ng-if='isConnected')
             .input-group
                 span.input-group-addon #
@@ -42,7 +44,7 @@ block content
                     a(href='https://www.instagram.com/miguel_s28/') miguel_s28
             img.picture(ng-mouseleave='isMouseOverPicture = false' ng-mouseover='isMouseOverPicture = true' src='/img/tmp.jpg')
             .picture-buttons
-                .reject-button#reject-button(data-toggle='tooltip' data-placement='top' ng-click='isPictureRejected = true'  title='Meh, I don\'t like it.')
+                .reject-button#reject-button(data-toggle='tooltip' data-placement='top' ng-click='isPictureRejected = true'  title="Meh, I dont like it.")
                 span.arrows-info
                     | Press 
                     span.glyphicon.glyphicon-arrow-left
@@ -50,3 +52,7 @@ block content
                     span.glyphicon.glyphicon-arrow-right
                     |  keys to quickly make a choice.
                 .like-button#like-button(data-toggle='tooltip' data-placement='top' ng-class='{"like-button-active": isPictureLiked}' ng-click='isPictureLiked = true' title='Amazing, take my like!')
+
+        .footer
+            .page-author Miguel Santamaria, 2016
+            a.policy-link(href='/policy') Policy

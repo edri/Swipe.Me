@@ -13,10 +13,6 @@ body {
     text-align: center;
 }
 
-a {
-    color: #00B7FF;
-}
-
 .title {
     color: white;
     font-family: 'Raleway', sans-serif;
@@ -27,13 +23,18 @@ a {
 }
 
 .header {
-    background-color: white;
+    background-color: #E7DFDC;
     border: 1px solid black;
     border-radius: 3px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
     margin: auto;
     padding: 20px;
     width: 800px;
+}
+
+.policy-header {
+    margin-top: 50px;
+    text-align: left;
 }
 
 .btn-show-pics {
@@ -50,7 +51,7 @@ a {
     margin: 50px 0 40px 50%;
     position: absolute;
     transform: translateX(calc(-50% - 50px));
-    transition: margin-top 500ms, transform 750ms;
+    transition: margin-top 450ms, transform 750ms;
     width: 558px;
 }
 
@@ -108,7 +109,7 @@ a {
 }
 
 .picture {
-    background-color: #DDD;
+    background-color: #E7DFDC;
     border-radius: 5px;
     height: 556px;
     padding: 30px;
@@ -154,4 +155,27 @@ a {
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
     width: 300px;
+}
+
+.footer {
+    bottom: 0;
+    left: 0;
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+}
+
+.page-author {
+    color: #E7DFDC;
+    float: left;
+}
+
+.policy-link {
+    color: #E7DFDC;
+    float: right;
+    text-decoration: underline;
+}
+
+.policy-link:hover, .policy-link:active {
+    color: #ACADBA;
 }
