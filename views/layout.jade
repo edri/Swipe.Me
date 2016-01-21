@@ -1,9 +1,10 @@
 doctype html
-html(lang='en' ng-app="InstaPicGram")
+html(lang='en' ng-app="Swipe.Me")
     head
         meta(charset='UTF-8')
         meta(name='viewport', content='width=device-width')
-        title= title
+        link(rel='icon' href='/img/favicon.png')
+        title=title
         block css
             if ENV_DEVELOPMENT
                 link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.css')
@@ -21,15 +22,17 @@ html(lang='en' ng-app="InstaPicGram")
             script(src='/components/angular/angular.js')
             script(src='/js/app.js')
 
-    body(ng-controller="PageController")
+    body
         if username
             .status-bar
                 | Connected as 
                 a.username-link(href='https://www.instagram.com/#{username}/' target='_blank') #{username}
-                a.btn.btn-xs.btn-primary.btn-disconnect(href='/logout') Disconnect
+                a.btn.btn-xs.btn-swipe-me.btn-disconnect(href='/logout') Disconnect
     
         block content
         
         .footer
-            .page-author Miguel Santamaria, 2016
+            .page-author
+                a.mailto-link(href='mailto:miguel.santamaria@heig-vd.ch') Miguel Santamaria
+                | , 2016
             a.policy-link(href='/policy') Policy

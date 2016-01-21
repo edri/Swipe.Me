@@ -14,19 +14,20 @@ const APPLICATION_NAME = "Swipe.Me";
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    // Get error if there is one.
-    var error = req.query.error;
-
-    // Send username or 'undefined' to the view, depending on the user's connection
-    // status. Also send an error if there is one.
-    res.render('index', {
-        title: APPLICATION_NAME,
-        applicationUrl: APPLICATION_URL,
-        clientId: CLIENT_ID,
-        username: req.session.username,
-        accessToken: req.session.accessToken,
-        error: error
-    });
+    // Redirect the user if it is already connected.
+    if (req.session.username) {
+        res.redirect('/swiper');
+    }
+    else {
+        // Send username or 'undefined' to the view, depending on the user's connection
+        // status. Also send an error if there is one.
+        res.render('index', {
+            title: APPLICATION_NAME,
+            applicationUrl: APPLICATION_URL,
+            clientId: CLIENT_ID,
+            error: req.query.error
+        });
+    }
 });
 
 // This request is where the Instagram API will send the code generated for the
@@ -62,7 +63,7 @@ router.get('/auth', function(req, res) {
                 // Save access token and username in the current session.
                 req.session.accessToken = jsonResult.access_token;
                 req.session.username = jsonResult.user.username;
-                res.redirect('/');
+                res.redirect('/swiper');
             }
             catch (e) {
                 console.log(e);
@@ -74,7 +75,22 @@ router.get('/auth', function(req, res) {
     else {
         res.redirect('/');
     }
-})
+});
+
+/* GET swiper page. */
+router.get('/swiper', function(req, res) {
+    // The user must be connected to access the action.
+    if (req.session.username) {
+        res.render('swiper', {
+            title: APPLICATION_NAME,
+            username: req.session.username,
+            accessToken: req.session.accessToken
+        });
+    }
+    else {
+        res.redirect('/');
+    }
+});
 
 // Logout the connected user.
 router.get('/logout', function(req, res) {
@@ -85,7 +101,7 @@ router.get('/logout', function(req, res) {
 /* GET policy page. */
 router.get('/policy', function(req, res) {
     res.render('policy', {
-        title: 'Policy',
+        title: APPLICATION_NAME + ' - Policy',
         applicationName: APPLICATION_NAME,
         username: req.session.username
     });

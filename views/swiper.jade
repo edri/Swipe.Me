@@ -1,0 +1,53 @@
+extends layout
+
+block content
+    // The user must be connected to access the page.
+    if username
+        section(ng-controller="SwiperController")
+            h1.title #{title}
+            
+            .header(ng-class='{"header-small": numberOfPictures > 0}' ng-init='accessToken = "#{accessToken}"')
+                .connected-content
+                    .input-group
+                        span.input-group-addon #
+                        input.form-control#hashtagInput(name='hashtag' ng-model='hashtag' ng-keyup='validateHashtag()' placeholder='Please enter a hashtag (e.g. "#pizza" or just "pizza")...' type='text')
+                        .input-group-btn
+                            button.btn.btn-swipe-me.btn-show-pics#btnShowPics(data-toggle='tooltip' data-placement='bottom' ng-click='showPics()' ng-disabled='showPicsButtonDisabled' title='Let me show you pictures related to the tags you entered. You can either like or reject them as your convinence!') Show me some pics!
+                    .panel.panel-danger.error-hashtag(ng-if='errorhashtag')
+                        .panel-heading.error-content
+                            {{errorhashtag}}
+                    .result-information(ng-if='numberOfMedia')
+                        | There is {{numberOfMedia}} existing media for 
+                        strong \#{{hashtagName}}
+                        span(ng-if='numberOfPictures >= 0') , including 
+                            strong {{numberOfPictures}}
+                            |  public ones
+                        | .
+                    .result-information(ng-if='numberOfMedia == 0')
+                        | Sorry there is no result for 
+                        strong \#{{hashtagName}}
+                        | ...
+                        
+            img.swiper-logo#logo(src='/img/logo-no-text.png')
+                        
+            section.pictures#pictures
+                // | limitTo: 3 : (11 - currentPicture)
+                .picture-wrapper(id='picture{{$index}}' ng-class='{"picture-wrapper-liked": pic.isPictureLiked, "picture-wrapper-rejected": pic.isPictureRejected}' ng-repeat='pic in pictures')
+                    img.paperclip(ng-class='{"paperclip-transparent": pic.isMouseOverPicture || pic.isMouseOverNote}' src='/img/paperclip.png')
+                    .note(ng-class='{"note-transparent": pic.isMouseOverPicture}' ng-mouseleave='pic.isMouseOverNote = false' ng-mouseover='pic.isMouseOverNote = true')
+                        .hashtags-section
+                            {{pic.description}}
+                        hr.note-separation
+                        strong 
+                            | Author: 
+                            a(href='https://www.instagram.com/{{pic.username}}/' target='_blank') {{pic.username}}
+                    img.picture(alt='{{pic.description}}' ng-mouseleave='pic.isMouseOverPicture = false' ng-mouseover='pic.isMouseOverPicture = true' ng-src='{{pic.url}}')
+                    .picture-buttons
+                        .reject-button#reject-button(data-toggle='tooltip' data-placement='top' ng-click='reject()' title="Meh, I dont like it.")
+                        span.arrows-info
+                            | Press 
+                            span.glyphicon.glyphicon-arrow-left
+                            |  or 
+                            span.glyphicon.glyphicon-arrow-right
+                            |  keys to quickly make a choice.
+                        .like-button#like-button(data-toggle='tooltip' data-placement='top' ng-class='{"like-button-active": pic.isPictureLiked || pic.alreadyLiked}' ng-click='like()' title='Amazing, take my like!')

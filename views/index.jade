@@ -1,68 +1,24 @@
 extends layout
 
 block content
-    h1.title #{title}
-    
+    img.index-logo#logo(src='/img/logo.png')
+
     if error
-        .panel.panel-danger.error
-            .panel-heading.error-content
+        .panel.panel-danger.connection-error
+            .panel-heading.connection-error-content
                 | Something wrong happened when trying to connect to Instagram, please 
                 a(href='https://www.instagram.com/oauth/authorize/?client_id=#{clientId}&redirect_uri=#{applicationUrl}/auth&response_type=code&scope=public_content+likes') retry
                 |  in a while.
-    else if !username
-        .header.header-not-connected
-            .connect-message(ng-if='!isConnected()')
-                p
-                    | Please 
-                    a(href='https://www.instagram.com/oauth/authorize/?client_id=#{clientId}&redirect_uri=#{applicationUrl}/auth&response_type=code&scope=public_content+likes') connect
-                    |  in order to use the application.
-                br
-                a(href='/policy') Read more here about the policy of #{title}.
     else
-        .header(ng-init='accessToken = "#{accessToken}"')
-            .connected-content
-                .input-group
-                    span.input-group-addon #
-                    input.form-control#hashtagsInput(name='hashtags' ng-model='hashtags' ng-keyup='validateHashtags()' placeholder='Please enter some hashtags separated with spaces (e.g. "#pizza #foodporn")' type='text')
-                    .input-group-btn
-                        button.btn.btn-primary.btn-show-pics#btnShowPics(data-toggle='tooltip' data-placement='bottom' ng-click='showPics()' ng-disabled='showPicsButtonDisabled' title='Let me show you pictures related to the tags you entered. You can either like or reject them as your convinence!') Show me some pics!
-                .panel.panel-danger.error-hashtags(ng-if='errorHashtags')
-                    .panel-heading.error-content
-                        {{errorHashtags}}
-                .result-information(ng-if='resultInformation')
-                    {{resultInformation}}
-                    
-                    
-        section.pictures#pictures
-            .picture-wrapper#picture3
-                img.picture(src='/img/tmp.jpg')
-                .picture-buttons
-                    .reject-button
-                    .like-button
+        .connection-panel#connection-panel
+            p.welcome-message Well, hello you!
+            | Please connect to your Instagram account in order to use the application.
+            br
+            a.btn.btn-swipe-me.btn-login(href='https://www.instagram.com/oauth/authorize/?client_id=#{clientId}&redirect_uri=#{applicationUrl}/auth&response_type=code&scope=public_content+likes') Login
 
-            .picture-wrapper#picture2
-                img.picture(src='/img/tmp.jpg')
-                .picture-buttons
-                    .reject-button
-                    .like-button
-
-                    
-            .picture-wrapper#picture1(ng-class='{"picture-wrapper-liked": isPictureLiked, "picture-wrapper-rejected": isPictureRejected}' ng-if='pictures[0]')
-                img.paperclip(ng-class='{"paperclip-transparent": isMouseOverPicture || isMouseOverNote}' src='/img/paperclip.png')
-                .note(ng-class='{"note-transparent": isMouseOverPicture}' ng-mouseleave='isMouseOverNote = false' ng-mouseover='isMouseOverNote = true')
-                    .hashtags-section
-                        {{pictures[0].description}}
-                    hr.note-separation
-                    strong 
-                        | Author: 
-                        a(href='https://www.instagram.com/{{pictures[0].username}}/' target='_blank') {{pictures[0].username}}
-                img.picture(alt='{{pictures[0].description}}' ng-mouseleave='isMouseOverPicture = false' ng-mouseover='isMouseOverPicture = true' ng-src='{{pictures[0].url}}')
-                .picture-buttons
-                    .reject-button#reject-button(data-toggle='tooltip' data-placement='top' ng-click='isPictureRejected = true'  title="Meh, I dont like it.")
-                    span.arrows-info
-                        | Press 
-                        span.glyphicon.glyphicon-arrow-left
-                        |  or 
-                        span.glyphicon.glyphicon-arrow-right
-                        |  keys to quickly make a choice.
-                    .like-button#like-button(data-toggle='tooltip' data-placement='top' ng-class='{"like-button-active": isPictureLiked}' ng-click='isPictureLiked = true' title='Amazing, take my like!')
+    script.
+        $(document).ready(function() {
+            $("#logo").fadeIn("slow", function() {
+                $("#connection-panel").addClass("connection-panel-visible");
+            });
+        });

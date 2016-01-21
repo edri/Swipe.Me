@@ -1,3 +1,4 @@
+/* GLOBAL SCOPE */
 @font-face {
   font-family: 'Raleway';
   font-style: normal;
@@ -8,9 +9,26 @@
 body {
     background: rgba(0, 0, 0, 0) url("/img/background.jpg") no-repeat scroll 0 0 / 100% auto;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-    overflow-x: hidden;
-    padding: 0 50px 50px 50px;
+    overflow: hidden;
     text-align: center;
+}
+
+a {
+    color: #3766ad;
+}
+
+a:hover, a:focus, a:active {
+    color: #3a37ad;
+}
+
+.btn-swipe-me {
+    background-color: #3766ad;
+    color: white;
+}
+
+.btn-swipe-me:hover, .btn-swipe-me:focus, .btn-swipe-me:active {
+    background-color: #3a37ad;
+    color: white;
 }
 
 .status-bar {
@@ -45,33 +63,93 @@ body {
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-.error {
+
+
+/* HOME PAGE */
+.index-logo {
+    display: none;
+    height: 500px;
+    margin-top: 70px;
+}
+
+.connection-error {
+    bottom: -10px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
-    margin: 50px auto;
+    margin: 0 0 0 50%;
+    position: absolute;
+    transform: translateX(-50%);
     width: 800px;
 }
 
-.error-content {
-    padding: 20px;
+.connection-error-content {
+    padding: 20px 20px 30px 20px;
 }
 
+.connection-panel {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid black;
+    border-radius: 5px;
+    bottom: -160px;
+    margin-left: 50%;
+    padding: 20px 80px 32px 80px;
+    position: absolute;
+    transform: translateX(-50%);
+    transition: bottom 750ms;
+    z-index: 1;
+}
+
+.connection-panel-visible {
+    bottom: -10px;
+}
+
+.welcome-message {
+    font-size: 18px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.btn-login {
+    margin-top: 20px;
+    width: 200px;
+}
+
+
+
+/* POLICY PAGE */
+.policy-title {
+    margin-top: 100px;
+}
+
+.policy-header {
+    text-align: left;
+}
+
+
+
+/* SWIPER PAGE */
 .header {
     background-color: white;
     border: 1px solid black;
     border-radius: 3px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
-    margin: auto;
+    margin: 50px auto;
+    opacity: 1;
     padding: 20px;
+    transition: margin 500ms, opacity 500ms;
     width: 800px;
 }
 
-.header-not-connected {
-    margin-top: 50px;
+.header-small {
+    margin: 0 auto;
+    opacity: 0.5;
 }
 
-.policy-header {
-    margin-top: 50px;
-    text-align: left;
+.header-small:hover {
+    opacity: 1;
+}
+
+.error-content {
+    padding: 20px;
 }
 
 .btn-show-pics {
@@ -79,13 +157,23 @@ body {
     margin-left: 10px !important;
 }
 
-.error-hashtags {
+.error-hashtag {
     margin: 20px 0 0 0 !important;
 }
 
 .result-information {
     font-size: 12px;
     margin-top: 10px;
+}
+
+.swiper-logo {
+    bottom: 15vh;
+    display: none;
+    height: 50vh;
+    left: 0;
+    margin-left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
 }
 
 .pictures {
@@ -100,19 +188,17 @@ body {
     height: 638px;
     margin: 50px 0 40px 50%;
     position: absolute;
-    transform: translateX(calc(-50% - 50px));
-    transition: margin-top 400ms, transform 750ms;
+    transform: translateX(-50%);
+    transition: transform 750ms;
     width: 538px;
 }
 
 .picture-wrapper-liked {
-    margin-top: 0;
-    transform: translateX(50vw) rotate(90deg);
+    transform: translateX(calc(50vw + 50px)) rotate(90deg) !important;
 }
 
 .picture-wrapper-rejected {
-    margin-top: 0;
-    transform: translateX(calc(-50vw - 760px)) rotate(-90deg);
+    transform: translateX(calc(-50vw - 760px)) rotate(-90deg) !important;
 }
 
 .paperclip {
@@ -218,6 +304,14 @@ body {
 .page-author {
     color: #E7DFDC;
     float: left;
+}
+
+.mailto-link {
+    color: #E7DFDC;
+}
+
+.mailto-link:hover, .mailto-link:focus, .mailto-link:active {
+    color: #ACADBA;
 }
 
 .policy-link {

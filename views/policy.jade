@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    h1.title #{title}
+    h1.title.policy-title #{title}
     
     .header.policy-header
         p
@@ -15,7 +15,7 @@ block content
             li The only thing we do with your account is liking pictures you personally liked in 
                 strong #{applicationName}
                 | .
-            li The maximum duration of a connection session is 10 minutes ; you must reconnect after this time elapsed.
+            li The maximum duration of a connection session is 60 minutes ; you must reconnect after this time elapsed.
         
         br
         a(href='/') Got it, please send me back.
