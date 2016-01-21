@@ -1,10 +1,11 @@
 (function() {
     var appModule = angular.module("Swipe.Me", [])
-        .controller("SwiperController", function($scope, $http) {
+        .controller("SwiperController", function($scope, $http, $compile) {
             // Indicates the maximum number of displayed pictures at the same time.
             const MAX_IMAGES = 3;
-            // Indicates the current displayed picture's number.
-            $scope.currentPicture = 0;
+            // Indicates the current displayed picture's index.
+            $scope.currentPictureIndex = 0;
+            $scope.firstDisplayedPictureIndex = 0;
 
             // "Show me some pics!" button is disabled by default.
             $scope.showPicsButtonDisabled = true;
@@ -23,13 +24,19 @@
             angular.element(document).bind("keypress", function(event) {
                 // The hashtag field must not be focus otherwise nothing happens.
                 if (!$("#hashtagInput").is(":focus")) {
-                    // The user pressed the left arrow key.
+                    // The user pressed the left arrow key ; rejects the picture.
                     if (event.keyCode === 37) {
-                        $("#reject-button").click();
+                        // Prevent default reaction (right scrolling) of the right
+                        // arrow key.
+                        event.preventDefault();
+                        $("#reject-button" + $scope.currentPictureIndex).click();
                     }
-                    // The user pressed the right arrow key.
+                    // The user pressed the right arrow key ; likes the picture.
                     else if (event.keyCode === 39) {
-                        $("#like-button").click();
+                        // Prevent default reaction (left scrolling) of the right
+                        // arrow key.
+                        event.preventDefault();
+                        $("#like-button" + $scope.currentPictureIndex).click();
                     }
                 }
                 // Simulate a click on the "Show me some pics!" button if the
@@ -90,9 +97,9 @@
                                 $scope.numberOfMedia = response.data.data.media_count;
                                 $scope.hashtagName = response.data.data.name;
 
-                                // Gets 5 pictures if there is more than 0 results.
+                                // Gets 10 pictures if there is more than 0 results.
                                 if (response.data.data.media_count > 0) {
-                                    $http.jsonp("https://api.instagram.com/v1/tags/" + $scope.hashtag + "/media/recent?count=5&access_token=" + $scope.accessToken + "&callback=JSON_CALLBACK").then(
+                                    $http.jsonp("https://api.instagram.com/v1/tags/" + $scope.hashtag + "/media/recent?count=10&access_token=" + $scope.accessToken + "&callback=JSON_CALLBACK").then(
                                         function success(response) {
                                             $scope.numberOfPictures = response.data.data.length;
 
@@ -108,6 +115,7 @@
                                                         $scope.pictures.push({
                                                             id: data.id,
                                                             url: data.images.standard_resolution.url,
+                                                            //url: data.images.thumbnail.url,
                                                             description: data.caption.text,
                                                             username: data.caption.from.username,
                                                             alreadyLiked: data.user_has_liked,
@@ -117,8 +125,6 @@
                                                             isPictureLiked: false
                                                         });
                                                     }
-
-                                                    ++$scope.currentPicture;
                                                 });
 
                                                 setTimeout(function() {
@@ -165,16 +171,28 @@
                 }
             };
 
-            $scope.reject = function() {
-                if ($scope.currentPicture >= 0) {
-                    $scope.pictures[$scope.currentPicture--].isPictureRejected = true;
-                }
-            }
+            // Rejects or likes the current picture, by the user's choice.
+            // Parameters:
+            //      - reject: indicate whether the picture is rejected (true) or
+            //                not (false) by the user.
+            $scope.changePictureStatus = function(reject) {
+                if ($scope.currentPictureIndex < $scope.numberOfPictures) {
+                    if (reject) {
+                        $scope.pictures[$scope.currentPictureIndex++].isPictureRejected = true;
+                    }
+                    else {
+                        $scope.pictures[$scope.currentPictureIndex++].isPictureLiked = true;
+                    }
 
-            // Likes the current picture.
-            $scope.like = function() {
-                if ($scope.currentPicture >= 0) {
-                    $scope.pictures[$scope.currentPicture--].isPictureLiked = true;
+                    // Remove the picture after a while.
+                    setTimeout(function() {
+                        $("#picture" + ($scope.firstDisplayedPictureIndex++)).remove();
+                        $("#picture" + $scope.firstDisplayedPictureIndex + 2).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, i)) + "deg)");
+
+                        //$compile($("#picture" + $scope.firstDisplayedPictureIndex));
+
+                        $scope.$apply();
+                    }, 850);
                 }
             }
         });

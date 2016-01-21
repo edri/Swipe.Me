@@ -194,11 +194,11 @@ a:hover, a:focus, a:active {
 }
 
 .picture-wrapper-liked {
-    transform: translateX(calc(50vw + 50px)) rotate(90deg) !important;
+    transform: translateX(calc(50vw + 100px)) rotate(90deg) !important;
 }
 
 .picture-wrapper-rejected {
-    transform: translateX(calc(-50vw - 760px)) rotate(-90deg) !important;
+    transform: translateX(calc(-50vw - 638px)) rotate(-90deg) !important;
 }
 
 .paperclip {
