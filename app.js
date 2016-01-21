@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Set session of 10 minutes.
 // CHANGE SECRET FOR PRODUCTION.
 app.use(routes.session({
-    secret: 'KJD9UIcn93iD$93#awZ',
+    secret: '9Zu^21kApL9$582cYZq#',
     resave: true,
     saveUninitialized: false,
     cookie: {maxAge: 3600000}
