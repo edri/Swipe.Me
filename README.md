@@ -1,5 +1,6 @@
 # [Swipe.Me](https://github.com/edri/Swipe.Me)
 Website: http://swipe-me.herokuapp.com/
+![](public/img/logo.png "Swipe.Me's logo")
 
 ## First note - Important
 Because the website is still in sandbox mode, everybody cannot access it. If you *really* want to try it out, just send me an [email](mailto:miguel.santamaria@heig-vd.ch) and I'll be proud to give you an access. If you also have some feedbacks I'll be happy to read them!  
