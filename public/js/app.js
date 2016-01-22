@@ -216,6 +216,25 @@
                 }, 1000);
             }
 
+            function dealActionErrors(errorType) {
+                switch (errorType) {
+                    case "rateLimit":
+                        alert("You liked too many pictures in a short time (> 60 / hour), please retry in one hour.");
+                        break;
+                    // Redirects the user if the session expired.
+                    case "sessionExpired":
+                        alert("Your connection session expired, please reconnect.");
+                        $window.location.href = "/";
+                        break;
+                    case "requestError":
+                    case "unknowCode":
+                    case "unknowAction":
+                    default:
+                        alert("Something wrong happened, please retry in a while.");
+                        break;
+                }
+            }
+
             // Rejects the current picture.
             $scope.reject = function() {
                 if ($scope.currentPictureIndex < $scope.numberOfPictures) {
@@ -238,23 +257,7 @@
                                     // Reset the "fake" dislike on the image, because
                                     // the picture was not really disliked.
                                     $scope.pictures[$scope.currentPictureIndex].isPictureRejected = false;
-
-                                    switch (response.data.errorType) {
-                                        case "rateLimit":
-                                            alert("You liked too many pictures in a short time (> 60 / hour), please retry in one hour.");
-                                            break;
-                                        // Redirects the user if the session expired.
-                                        case "sessionExpired":
-                                            alert("Your connection session expired, please reconnect.");
-                                            $window.location.href = "/";
-                                            break;
-                                        case "requestError":
-                                        case "unknowCode":
-                                        case "unknowAction":
-                                        default:
-                                            alert("Something wrong happened, please retry in a while.");
-                                            break;
-                                    }
+                                    dealActionErrors(response.data.errorType);
                                 }
                                 // If there is no error we can like the picture
                                 // in the GUI.
@@ -299,23 +302,7 @@
                                     // Reset the "fake" like on the image, because
                                     // the picture was not really liked.
                                     $scope.pictures[$scope.currentPictureIndex].isPictureLiked = false;
-
-                                    switch (response.data.errorType) {
-                                        case "rateLimit":
-                                            alert("You liked too many pictures in a short time (> 60 / hour), please retry in one hour.");
-                                            break;
-                                        // Redirects the user if the session expired.
-                                        case "sessionExpired":
-                                            alert("Your connection session expired, please reconnect.");
-                                            $window.location.href = "/";
-                                            break;
-                                        case "requestError":
-                                        case "unknowCode":
-                                        case "unknowAction":
-                                        default:
-                                            alert("Something wrong happened, please retry in a while.");
-                                            break;
-                                    }
+                                    dealActionErrors(response.data.errorType);
                                 }
                                 // If there is no error we can like the picture
                                 // in the GUI.
