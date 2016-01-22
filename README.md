@@ -53,13 +53,15 @@ There is currently only one router (`/routes/index.js`) containing two different
     * `/action/:action_type/:picture_id` => Does a "Like" or "Dislike" action (depending on the given `action_type`, which can be "like" or "dislike") on the picture identified by the `picture_id` ID.
 
 ### Instagram API
-First of all the user need to connect Instagram in order to get an access token to the Swipe.Me application. The connection process is made in two times:
+First of all the user need to connect Instagram in order to get an access token to the Swipe.Me application. The connection process is made in two times.
+
 1. The user clicks on the "Login" button and is redirect to the official Instagram's connection page, in where he can enter his name and password, and then accept or not the access to the application. The link linked to the button contains the application's public client's ID, the scope rights ("access public content", and "like"), and the URL (`[swipe.me host name]/auth`) called after the login process succeeded or not.
 2. Instagram checks the validity of the given information and calls back the Swipe.Me's server on the `/auth` link. From there, there is two cases:
     1. An error occured (the user rejected the access) => redirects the user to the Homme page with an error to display.
     2. We received a success result with the precious access token and the user's name => save those variables in the server's session and redirect the user to the Swiper page.
 
-Once connected, there is three kinds of possible requests that can be sent to the Instagram API server:
+Once connected, there is three kinds of possible requests that can be sent to the Instagram API server.
+
 1. Asks for the number of medias that have the given hashtag: **GET** on `https://api.instagram.com/v1/tags/{tag-name}?access_token=ACCESS-TOKEN`, where `tag-name` is the tag's name (without '#') and `ACCESS-TOKEN` is the current user's access token. This request is made with JSONP to avoid cross-origin issues.
 2. Asks for the details of all recent pictures related to the given hashtag: **GET** on `https://api.instagram.com/v1/tags/{tag-name}/media/recent?access_token=ACCESS-TOKEN`, where `tag-name` is the tag's name (without '#') and `ACCESS-TOKEN` is the current user's access token. This request is also made with JSONP to avoid cross-origin issues.
 3. Likes or dislikes a media: POST (like) or DELETE (dislike) on `https://api.instagram.com/v1/media/{media-id}/likes?access_token=ACCESS-TOKEN`, where `media-id` is the concerned media's ID (received in the 2. point) and `ACCESS-TOKEN` is the current user's access token. Because this request is not a **GET** method we need to pass by the server (`/action/...`) to avoir cross-origin issues.
