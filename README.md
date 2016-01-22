@@ -22,7 +22,7 @@ You will then be redirected to the swiper page, in where you'll be able to searc
 After a few seconds you'll be able to access pictures related to the entered hashtag.  
 ![](doc/img/picture_example.png "Here is an example for the #valais hashtag")
 
-If you want to have more details on the picture, just move the cursor on the yellow note to enlarge it. You can then read the picture's description and click on the author if you want more information.
+If you want to have more details on the picture, just move the cursor on the yellow note to enlarge it. You can then read the picture's description and click on the author if you want more information.  
 ![](doc/img/note_enlargement.png "Enlarge the picture's note by moving the cursor on it")  
 If you want to hide to note so you can see the entire picture, just move the cursor on the picture.  
 You can access the image's Instagram page by clicking on it, too.
@@ -40,7 +40,8 @@ If you swipe on the right nothing new will happen, but if you swipe the picture 
 I coded this project with Node.js and the *express* framework (built with Yeoman) for the server side, and with AngularJS for the client one. I also used Npm, Bower, Jade, etc.
 
 ## Available pages
-There is currently only one router (`/routes/index.js`) containing two different elements.  
+There is currently only one router (`/routes/index.js`) containing two different elements.
+
 1. Physical pages (linked to Jade views):
     * `/` => Home page, which can be only accessed by the non-connected users.
     * `/policy` => Policy page, which can be accessed by everybody.
