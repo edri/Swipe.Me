@@ -6,7 +6,7 @@ Website: http://swipe-me.herokuapp.com/
 Because the website is still in sandbox mode, everybody cannot access it. If you *really* want to try it out, just send me an [email](mailto:miguel.santamaria@heig-vd.ch) and I'll be proud to give you an access. If you also have some feedbacks I'll be happy to read them!  
 The sandbox mode also have another big disadvantage: you cannot access any of the users' pictures but mine (which is not totally useless for me because I can get some free likes, hehe). To ensure you'll correctly find pictures, please enter one of the following hashtags: **#europe** (>= 18 available pictures), **#trip** (>= 11 pictures), **#valais** (>= 5 pictures), **#spain** (>= 1 picture(s)).
 
-I made all my tests on Firefox and Chrome, so don't blame me if there is still some issues in other browsers, I planed to correct them.
+I made all my tests on priority with the last version of Firefox and then a little bit with Chromium, so don't blame me if there is still some issues in other browsers, I planed to correct them.
 
 ## Information
 
@@ -35,14 +35,13 @@ Just swipe between pictures by pressing either the "Reject" (or left-arrow key) 
 Isn't it beautiful?
 
 If you already liked the picture once in your life, the "Like" button will already be marked.  
-![](doc/img/picture_already_liked.png "Picture already liked")  
 If you swipe on the right nothing new will happen, but if you swipe the picture left your "Like" will be dismissed and the picture disliked.
 
 ## Coding process
 
 ### Introduction
 I coded this project with Node.js and the *express* framework (built with Yeoman) for the server side, and with AngularJS for the client one.  
-I also used Npm, Bower, Jade, etc. Feel free to look into the Npm and Bower's files!
+I also used Npm, Bower, Jade, Bootstrap, etc. Feel free to look into the Npm and Bower's files!
 
 ## Available pages
 There is currently only one router (`/routes/index.js`) containing two different elements.

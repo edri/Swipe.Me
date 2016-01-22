@@ -24,7 +24,7 @@
 
             // Executes a left or right swipe of the current picture when the
             // user pressed the left or right arrow keys.
-            angular.element(document).bind("keypress", function(event) {
+            angular.element(document).bind("keydown", function(event) {
                 // The hashtag field must not be focus otherwise nothing happens.
                 if (!$("#hashtagInput").is(":focus")) {
                     // The user pressed the left arrow key ; rejects the picture.

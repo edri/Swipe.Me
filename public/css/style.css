@@ -228,10 +228,14 @@ a:hover, a:focus, a:active {
 }
 
 .note {
-    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #fefdca 0%, #f7f381 100%) repeat scroll 0 0;
+    background: #f7f381; /* Old browsers */
+    background: -moz-linear-gradient(top, #fefdca 0%, #f7f381 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #fefdca 0%,#f7f381 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #fefdca 0%,#f7f381 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     border: 1px solid black;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefdca', endColorstr='#f7f381',GradientType=0 ); /* Background for IE6-9 */
     height: 73px;
     position: absolute;
     right: 10px;
@@ -277,7 +281,7 @@ a:hover, a:focus, a:active {
 }
 
 .note-separation {
-    border-color: #ddb730 -moz-use-text-color -moz-use-text-color;
+    border-color: #ddb730;
     margin: 8px 0 5px;
 }
 
