@@ -6,6 +6,13 @@
   src: local('Raleway'), url('/fonts/GoogleRaleway.woff2') format('woff2');
 }
 
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url('/font/Lato.woff2') format('woff2');
+}
+
 body {
     background: rgba(0, 0, 0, 0) url("/img/background.jpg") no-repeat scroll 0 0 / 100% auto;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -39,6 +46,7 @@ a:hover, a:focus, a:active {
     position: fixed;
     text-align: right;
     width: 100%;
+    z-index: 1;
 }
 
 .username-link {
@@ -59,8 +67,15 @@ a:hover, a:focus, a:active {
     font-family: 'Raleway', sans-serif;
     font-size: 38px;
     font-weight: bold;
-    margin-bottom: 12px;
+    margin-top: 60px;
+    opacity: 1;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    transition: margin-top 500ms, opacity 500ms;
+}
+
+.title-small {
+    margin-top: 20px;
+    opacity: 0.5;
 }
 
 
@@ -68,8 +83,17 @@ a:hover, a:focus, a:active {
 /* HOME PAGE */
 .index-logo {
     display: none;
-    height: 500px;
-    margin-top: 70px;
+    height: 430px;
+    margin-top: 60px;
+}
+
+.slogan {
+    color: #2f384f;
+    font-family: 'Lato', sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 40px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .connection-error {
@@ -148,14 +172,6 @@ a:hover, a:focus, a:active {
     opacity: 1;
 }
 
-.low-opacity {
-    opacity: 0.5;
-}
-
-*:hover {
-    opacity: 1;
-}
-
 .error-content {
     padding: 20px;
 }
@@ -175,7 +191,7 @@ a:hover, a:focus, a:active {
 }
 
 .swiper-logo {
-    bottom: 15vh;
+    bottom: 12.5vh;
     display: none;
     height: 50vh;
     left: 0;
