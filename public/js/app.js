@@ -151,6 +151,8 @@
                                                     // Randomly rotates each picture but the first.
                                                     for (var i = 0; i < 3; ++i) {
                                                         $("#picture" + i).fadeIn("fast");
+                                                        $("#reject-button" + i).tooltip();
+                                                        $("#like-button" + i).tooltip();
 
                                                         if (i > 0) {
                                                             $("#picture" + i).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, i)) + "deg)");
@@ -209,73 +211,129 @@
                 setTimeout(function() {
                     $("#picture" + ($scope.firstDisplayedPictureIndex + 2)).fadeIn("fast");
                     $("#picture" + ($scope.firstDisplayedPictureIndex + 2)).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, $scope.firstDisplayedPictureIndex + 2)) + "deg)");
+                    $("#reject-button" + ($scope.firstDisplayedPictureIndex + 2)).tooltip();
+                    $("#like-button" + ($scope.firstDisplayedPictureIndex + 2)).tooltip();
                 }, 1000);
             }
 
-            // Rejects or likes the current picture, by the user's choice.
-            // Parameters:
-            //      - reject: indicate whether the picture is rejected (true) or
-            //                not (false) by the user.
-            $scope.changePictureStatus = function(reject) {
+            // Rejects the current picture.
+            $scope.reject = function() {
                 if ($scope.currentPictureIndex < $scope.numberOfPictures) {
-                    if (reject) {
+                    // Dislikes the picture if it is already liked by the user.
+                    if ($scope.pictures[$scope.currentPictureIndex].alreadyLiked && $scope.applicationUrl) {
+                        // First make the user believe he disliked the picture,
+                        // before sending the request.
+                        // I made this because of the request's time, which
+                        // can be of 1-2 seconds and the user will be bored
+                        // to always wait for a while.
+                        // If an error happens the picture will be reinitialized.
+                        $scope.pictures[$scope.currentPictureIndex].isPictureRejected = true;
+
+                        // Send a request to the local server so he can make the POST
+                        // like-request without any cross-origin issue.
+                        $http.get($scope.applicationUrl + "/action/dislike/" + $scope.pictures[$scope.currentPictureIndex].id).then(
+                            function success(response) {
+                                // Checks if an error occured.
+                                if (response.data.error) {
+                                    // Reset the "fake" dislike on the image, because
+                                    // the picture was not really disliked.
+                                    $scope.pictures[$scope.currentPictureIndex].isPictureRejected = false;
+
+                                    switch (response.data.errorType) {
+                                        case "rateLimit":
+                                            alert("You liked too many pictures in a short time (> 60 / hour), please retry in one hour.");
+                                            break;
+                                        // Redirects the user if the session expired.
+                                        case "sessionExpired":
+                                            alert("Your connection session expired, please reconnect.");
+                                            $window.location.href = "/";
+                                            break;
+                                        case "requestError":
+                                        case "unknowCode":
+                                        case "unknowAction":
+                                        default:
+                                            alert("Something wrong happened, please retry in a while.");
+                                            break;
+                                    }
+                                }
+                                // If there is no error we can like the picture
+                                // in the GUI.
+                                else {
+                                    ++$scope.currentPictureIndex;
+                                    cleanPictureSwitch();
+                                }
+                            },
+                            function error(response) {
+                                $scope.pictures[$scope.currentPictureIndex].isPictureRejected = false;
+                                alert("Something wrong happened, please retry in a while.");
+                            }
+                        );
+                    }
+                    else
+                    {
                         $scope.pictures[$scope.currentPictureIndex++].isPictureRejected = true;
                         cleanPictureSwitch();
                     }
-                    else {
-                        // Likes the picture if it is not already liked by the user.
-                        if (!$scope.pictures[$scope.currentPictureIndex].alreadyLiked && $scope.applicationUrl) {
-                            // First make the user believe he liked the picture,
-                            // before sending the request.
-                            // I made this because of the request's time, which
-                            // can be of 1-2 seconds and the user will be bored
-                            // to always wait for a while.
-                            $scope.pictures[$scope.currentPictureIndex].isPictureLiked = true;
+                }
+            }
 
-                            // Send a request to the local server so he can make the POST
-                            // like-request without any cross-origin issue.
-                            $http.get($scope.applicationUrl + "/like/" + $scope.pictures[$scope.currentPictureIndex].id).then(
-                                function success(response) {
-                                    // Checks if an error occured.
-                                    if (response.data.error) {
-                                        // Reset the "fake" like on the image, because
-                                        // the picture was not really liked.
-                                        $scope.pictures[$scope.currentPictureIndex].isPictureLiked = false;
+            // Likes the current picture.
+            $scope.like = function() {
+                if ($scope.currentPictureIndex < $scope.numberOfPictures) {
+                    // Likes the picture if it is not already liked by the user.
+                    if (!$scope.pictures[$scope.currentPictureIndex].alreadyLiked && $scope.applicationUrl) {
+                        // First make the user believe he liked the picture,
+                        // before sending the request.
+                        // I made this because of the request's time, which
+                        // can be of 1-2 seconds and the user will be bored
+                        // to always wait for a while.
+                        // If an error happens the picture will be reinitialized.
+                        $scope.pictures[$scope.currentPictureIndex].isPictureLiked = true;
 
-                                        switch (response.data.errorType) {
-                                            case "requestError":
-                                            case "unknowCode":
-                                                alert("Something wrong happened, please retry in a while.");
-                                                break;
-                                            case "rateLimit":
-                                                alert("You liked too many pictures in a short time (> 60 / hour), please retry in one hour.");
-                                                break;
-                                            // Redirects the user if the session expired.
-                                            case "sessionExpired":
-                                                alert("Your connection session expired, please reconnect.");
-                                                $window.location.href = "/";
-                                                break;
-                                        }
-                                    }
-                                    // If there is no error we can like the picture
-                                    // in the GUI.
-                                    else {
-                                        ++$scope.currentPictureIndex;
-                                        //$scope.pictures[$scope.currentPictureIndex++].isPictureLiked = true;
-                                        cleanPictureSwitch();
-                                    }
-                                },
-                                function error(response) {
+                        // Send a request to the local server so he can make the POST
+                        // like-request without any cross-origin issue.
+                        $http.get($scope.applicationUrl + "/action/like/" + $scope.pictures[$scope.currentPictureIndex].id).then(
+                            function success(response) {
+                                // Checks if an error occured.
+                                if (response.data.error) {
+                                    // Reset the "fake" like on the image, because
+                                    // the picture was not really liked.
                                     $scope.pictures[$scope.currentPictureIndex].isPictureLiked = false;
-                                    alert("Something wrong happened, please retry in a while.");
+
+                                    switch (response.data.errorType) {
+                                        case "rateLimit":
+                                            alert("You liked too many pictures in a short time (> 60 / hour), please retry in one hour.");
+                                            break;
+                                        // Redirects the user if the session expired.
+                                        case "sessionExpired":
+                                            alert("Your connection session expired, please reconnect.");
+                                            $window.location.href = "/";
+                                            break;
+                                        case "requestError":
+                                        case "unknowCode":
+                                        case "unknowAction":
+                                        default:
+                                            alert("Something wrong happened, please retry in a while.");
+                                            break;
+                                    }
                                 }
-                            );
-                        }
-                        // If the picture is already liked we don't have to like it again.
-                        else {
-                            $scope.pictures[$scope.currentPictureIndex++].isPictureLiked = true;
-                            cleanPictureSwitch();
-                        }
+                                // If there is no error we can like the picture
+                                // in the GUI.
+                                else {
+                                    ++$scope.currentPictureIndex;
+                                    cleanPictureSwitch();
+                                }
+                            },
+                            function error(response) {
+                                $scope.pictures[$scope.currentPictureIndex].isPictureLiked = false;
+                                alert("Something wrong happened, please retry in a while.");
+                            }
+                        );
+                    }
+                    // If the picture is already liked we don't have to like it again.
+                    else {
+                        $scope.pictures[$scope.currentPictureIndex++].isPictureLiked = true;
+                        cleanPictureSwitch();
                     }
                 }
             }

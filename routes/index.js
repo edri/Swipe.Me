@@ -93,45 +93,64 @@ router.get('/swiper', function(req, res) {
     }
 });
 
-// Sends a like for the given picture to the Instagram API.
-router.get('/like/:picture_id', function(req, res) {
+// Sends or delete a like for the given picture to the Instagram API.
+// Paramerets:
+//      - action_type: 'like' or 'dislike'.
+//      - picture_id: the picture in which the like will be added/removed.
+router.get('/action/:action_type/:picture_id', function(req, res) {
     // The session must be active.
     if (req.session.accessToken) {
-        request.post({url: 'https://api.instagram.com/v1/media/' + req.params.picture_id + '/likes?access_token=' + req.session.accessToken}, function(error, result, body) {
-            if (error) {
-                res.send({
-                    error: true,
-                    errorType: "requestError"
-                })
-            }
-            else {
-                var resultData = JSON.parse(body);
+        // The action must be a known one otherwise we just redirect the user.
+        if (req.params.action_type === "like" || req.params.action_type === "dislike") {
+            // Get the right HTTP method's type, depending on if the user liked or
+            // disliked the picture.
+            var method = (req.params.action_type === "like" ? "POST" : "DELETE");
 
-                // Send data to the called (public/app.js), depending on the result's
-                // code.
-                // First case: no error, everything went right.
-                if (resultData.meta.code === 200) {
-                    res.send({
-                        error: false
-                    });
-                }
-                // Second case: the user made too much requests to the Instagram
-                // REST API server so he has to wait for a while.
-                else if (resultData.meta.code === 429) {
+            request({method: method, url: 'https://api.instagram.com/v1/media/' + req.params.picture_id + '/likes?access_token=' + req.session.accessToken}, function(error, result, body) {
+                if (error) {
                     res.send({
                         error: true,
-                        errorType: "rateLimit"
-                    });
-                }
-                // Third case: unknown result's code.
-                else {
-                    res.send({
-                        error: true,
-                        errorType: "unknowCode"
+                        errorType: "requestError"
                     })
                 }
-            }
-        });
+                else {
+                    var resultData = JSON.parse(body);
+
+                    // Send data to the called (public/app.js), depending on the result's
+                    // code.
+                    // First case: no error, everything went right.
+                    if (resultData.meta.code === 200) {
+                        res.send({
+                            error: false
+                        });
+                    }
+                    // Second case: the user made too much requests to the Instagram
+                    // REST API server so he has to wait for a while.
+                    else if (resultData.meta.code === 429) {
+                        res.send({
+                            error: true,
+                            errorType: "rateLimit"
+                        });
+                    }
+                    // Third case: unknown result's code.
+                    else {
+                        res.send({
+                            error: true,
+                            errorType: "unknowCode"
+                        })
+                    }
+                }
+            });
+        }
+        else {
+            res.redirect('/');
+            // Still send a response in case the wrong request has been made from
+            // an Ajax of HTTP request (in public/js/app.js).
+            res.send({
+                error: true,
+                errorType: "unknowAction"
+            });
+        }
     }
     // Send an error if the session expired.
     else {

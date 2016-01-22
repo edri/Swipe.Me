@@ -42,11 +42,11 @@ block content
                             a(href='https://www.instagram.com/{{pic.username}}/' target='_blank') {{pic.username}}
                     img.picture(alt='{{pic.description}}' ng-mouseleave='pic.isMouseOverPicture = false' ng-mouseover='pic.isMouseOverPicture = true' ng-src='{{pic.url}}')
                     .picture-buttons
-                        .reject-button(data-toggle='tooltip' data-placement='top' id='reject-button{{$index + firstDisplayedPictureIndex}}' ng-click='changePictureStatus(true)' title="Meh, I dont like it.")
+                        .reject-button(data-toggle='tooltip' data-placement='top' id='reject-button{{$index + firstDisplayedPictureIndex}}' ng-click='reject()' title="Meh, I dont like it.")
                         span.arrows-info
                             | Press 
                             span.glyphicon.glyphicon-arrow-left
                             |  or 
                             span.glyphicon.glyphicon-arrow-right
                             |  keys to quickly make a choice.
-                        .like-button(data-toggle='tooltip' data-placement='top' id='like-button{{$index + firstDisplayedPictureIndex}}' ng-class='{"like-button-active": pic.isPictureLiked || pic.alreadyLiked || currentPictureInLikeRequest}' ng-click='changePictureStatus(false)' title='Amazing, take my like!')
+                        .like-button(data-toggle='tooltip' data-placement='top' id='like-button{{$index + firstDisplayedPictureIndex}}' ng-class='{"like-button-active": pic.isPictureLiked || pic.alreadyLiked || currentPictureInLikeRequest}' ng-click='like()' title='Amazing, take my like!')
