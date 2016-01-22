@@ -83,12 +83,62 @@ router.get('/swiper', function(req, res) {
     if (req.session.username) {
         res.render('swiper', {
             title: APPLICATION_NAME,
+            applicationUrl: APPLICATION_URL,
             username: req.session.username,
             accessToken: req.session.accessToken
         });
     }
     else {
         res.redirect('/');
+    }
+});
+
+// Sends a like for the given picture to the Instagram API.
+router.get('/like/:picture_id', function(req, res) {
+    // The session must be active.
+    if (req.session.accessToken) {
+        request.post({url: 'https://api.instagram.com/v1/media/' + req.params.picture_id + '/likes?access_token=' + req.session.accessToken}, function(error, result, body) {
+            if (error) {
+                res.send({
+                    error: true,
+                    errorType: "requestError"
+                })
+            }
+            else {
+                var resultData = JSON.parse(body);
+
+                // Send data to the called (public/app.js), depending on the result's
+                // code.
+                // First case: no error, everything went right.
+                if (resultData.meta.code === 200) {
+                    res.send({
+                        error: false
+                    });
+                }
+                // Second case: the user made too much requests to the Instagram
+                // REST API server so he has to wait for a while.
+                else if (resultData.meta.code === 429) {
+                    res.send({
+                        error: true,
+                        errorType: "rateLimit"
+                    });
+                }
+                // Third case: unknown result's code.
+                else {
+                    res.send({
+                        error: true,
+                        errorType: "unknowCode"
+                    })
+                }
+            }
+        });
+    }
+    // Send an error if the session expired.
+    else {
+        res.send({
+            error: true,
+            errorType: "sessionExpired"
+        });
     }
 });
 

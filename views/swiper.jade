@@ -3,16 +3,16 @@ extends layout
 block content
     // The user must be connected to access the page.
     if username
-        section(ng-controller="SwiperController")
+        section(ng-controller="SwiperController" ng-init='accessToken = "#{accessToken}"; applicationUrl = "#{applicationUrl}"')
             h1.title #{title}
             
-            .header(ng-class='{"header-small": numberOfPictures > 0}' ng-init='accessToken = "#{accessToken}"')
+            .header(ng-class='{"header-small": numberOfPictures > 0}')
                 .connected-content
                     .input-group
                         span.input-group-addon #
-                        input.form-control#hashtagInput(name='hashtag' ng-model='hashtag' ng-keyup='validateHashtag()' placeholder='Please enter a hashtag (e.g. "#pizza" or just "pizza")...' type='text')
+                        input.form-control#hashtagInput(name='hashtag' ng-model='hashtag' ng-keyup='validateHashtag($event)' placeholder='Please enter a hashtag (e.g. "#pizza" or just "pizza")...' type='text')
                         .input-group-btn
-                            button.btn.btn-swipe-me.btn-show-pics#btnShowPics(data-toggle='tooltip' data-placement='bottom' ng-click='showPics()' ng-disabled='showPicsButtonDisabled' title='Let me show you pictures related to the tags you entered. You can either like or reject them as your convinence!') Show me some pics!
+                            button.btn.btn-swipe-me.btn-show-pics#btnShowPics(data-toggle='tooltip' data-placement='bottom' ng-click='showPics()' ng-disabled='showPicsButtonDisabled' title='Let me show you pictures related to the tags you entered. You can either like or reject them as your convinence!') {{showPicsButtonLabel}}
                     .panel.panel-danger.error-hashtag(ng-if='errorhashtag')
                         .panel-heading.error-content
                             {{errorhashtag}}
@@ -49,4 +49,4 @@ block content
                             |  or 
                             span.glyphicon.glyphicon-arrow-right
                             |  keys to quickly make a choice.
-                        .like-button(data-toggle='tooltip' data-placement='top' id='like-button{{$index + firstDisplayedPictureIndex}}' ng-class='{"like-button-active": pic.isPictureLiked || pic.alreadyLiked}' ng-click='changePictureStatus(false)' title='Amazing, take my like!')
+                        .like-button(data-toggle='tooltip' data-placement='top' id='like-button{{$index + firstDisplayedPictureIndex}}' ng-class='{"like-button-active": pic.isPictureLiked || pic.alreadyLiked || currentPictureInLikeRequest}' ng-click='changePictureStatus(false)' title='Amazing, take my like!')

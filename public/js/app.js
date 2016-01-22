@@ -1,14 +1,17 @@
 (function() {
     var appModule = angular.module("Swipe.Me", [])
-        .controller("SwiperController", function($scope, $http, $compile) {
+        .controller("SwiperController", function($scope, $http, $window) {
             // Indicates the maximum number of displayed pictures at the same time.
             const MAX_IMAGES = 3;
+
             // Indicates the current displayed picture's index.
             $scope.currentPictureIndex = 0;
             $scope.firstDisplayedPictureIndex = 0;
+            $scope.hashtag = "";
 
             // "Show me some pics!" button is disabled by default.
             $scope.showPicsButtonDisabled = true;
+            $scope.showPicsButtonLabel = "Show me some pics!";
 
             // Occurs when the page successfully loaded.
             angular.element(document).ready(function () {
@@ -60,23 +63,34 @@
                 }
 
                 $("#pictures").hide();
+                $("#logo").fadeIn("fast");
                 $("#hashtagInput").focus();
+            }
+
+            // Reset the "Show me some pics!" button after the tag's search.
+            function resetButton() {
+                $scope.showPicsButtonDisabled = false;
+                $scope.showPicsButtonLabel = "Show me some pics!";
             }
 
             // Enables or disables the "Show me some pics!" button, depending on
             // whether the user entered a hashtag or not.
-            $scope.validateHashtag = function() {
-                if ($scope.hashtag) {
-                    $scope.showPicsButtonDisabled = false;
-                }
-                else {
-                    $scope.showPicsButtonDisabled = true;
+            $scope.validateHashtag = function(event) {
+                // The event is irrevelant for the 'Enter' key so we ignore it.
+                if (event.keyCode != 13) {
+                    if ($scope.hashtag) {
+                        resetButton();
+                    }
+                    else {
+                        $scope.showPicsButtonDisabled = true;
+                    }
                 }
             }
 
             // Show pics related to given tags.
             $scope.showPics = function() {
                 $scope.showPicsButtonDisabled = true;
+                $scope.showPicsButtonLabel = "Searching...";
                 // Reset errors.
                 $scope.errorhashtag = null;
                 $scope.hashtagName = $scope.hashtag;
@@ -97,16 +111,21 @@
                                 $scope.numberOfMedia = response.data.data.media_count;
                                 $scope.hashtagName = response.data.data.name;
 
-                                // Gets 10 pictures if there is more than 0 results.
+                                // Gets 100 pictures if there is more than 0 results.
+                                // Don't worry we're just getting images URL so it won't
+                                // slow down the system.
                                 if (response.data.data.media_count > 0) {
-                                    $http.jsonp("https://api.instagram.com/v1/tags/" + $scope.hashtag + "/media/recent?count=10&access_token=" + $scope.accessToken + "&callback=JSON_CALLBACK").then(
+                                    $http.jsonp("https://api.instagram.com/v1/tags/" + $scope.hashtag + "/media/recent?count=100&access_token=" + $scope.accessToken + "&callback=JSON_CALLBACK").then(
                                         function success(response) {
                                             $scope.numberOfPictures = response.data.data.length;
 
                                             // Checks if there is more than 0 public picture.
                                             if (response.data.data.length > 0) {
-                                                // (Re)initializes pictures array.
+                                                // (Re)initializes pictures array and scope data.
                                                 $scope.pictures = [];
+                                                $scope.currentPictureIndex = 0;
+                                                $scope.firstDisplayedPictureIndex = 0;
+                                                $("#pictures").show();
 
                                                 // Add each picture's data in scope.
                                                 angular.forEach(response.data.data, function(data) {
@@ -127,49 +146,71 @@
                                                     }
                                                 });
 
+                                                // Fades the first 3 pictures in and rotate them after a while.
                                                 setTimeout(function() {
                                                     // Randomly rotates each picture but the first.
-                                                    for (var i = 0; i < $scope.pictures.length - 1; ++i) {
-                                                        $("#picture" + i).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, i)) + "deg)");
+                                                    for (var i = 0; i < 3; ++i) {
+                                                        $("#picture" + i).fadeIn("fast");
+
+                                                        if (i > 0) {
+                                                            $("#picture" + i).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, i)) + "deg)");
+                                                        }
                                                     }
-                                                }, 1000);
+                                                }, 200);
 
-                                                $("#logo").fadeOut("fast", function() {
-                                                    $("#pictures").fadeIn("fast");
-                                                });
-
+                                                $("#logo").fadeOut("fast");
                                                 $("#hashtagInput").blur();
                                             }
                                             else {
                                                 resetFields(false);
                                             }
+
+                                            resetButton();
                                         },
                                         function error(response) {
                                             $scope.errorhashtag = "Oops... Something wrong happened when getting pictures, please retry in a while.";
                                             resetFields(true);
+                                            resetButton();
                                         }
                                     );
                                 }
                                 else {
                                     resetFields(false);
+                                    resetButton();
                                 }
                             }
                             else {
                                 $scope.errorhashtag = response.data.meta.error_message;
                                 resetFields(true);
+                                resetButton();
                             }
                         },
                         function error(response) {
                             $scope.errorhashtag = "Oops... Something wrong happened when getting hashtag's stats, please retry in a while.";
                             resetFields(true);
+                            resetButton();
                         }
                     );
                 }
                 else if (!$scope.hashtag) {
                     $scope.errorhashtag = "Please enter one hashtag.";
                     resetFields(true);
+                    resetButton();
                 }
             };
+
+            function cleanPictureSwitch() {
+                // Remove the picture after a while.
+                setTimeout(function() {
+                    $("#picture" + ($scope.firstDisplayedPictureIndex++)).remove();
+                    $scope.$apply();
+                }, 850);
+                // Then show the new picture in the pictures stack.
+                setTimeout(function() {
+                    $("#picture" + ($scope.firstDisplayedPictureIndex + 2)).fadeIn("fast");
+                    $("#picture" + ($scope.firstDisplayedPictureIndex + 2)).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, $scope.firstDisplayedPictureIndex + 2)) + "deg)");
+                }, 1000);
+            }
 
             // Rejects or likes the current picture, by the user's choice.
             // Parameters:
@@ -179,20 +220,63 @@
                 if ($scope.currentPictureIndex < $scope.numberOfPictures) {
                     if (reject) {
                         $scope.pictures[$scope.currentPictureIndex++].isPictureRejected = true;
+                        cleanPictureSwitch();
                     }
                     else {
-                        $scope.pictures[$scope.currentPictureIndex++].isPictureLiked = true;
+                        // Likes the picture if it is not already liked by the user.
+                        if (!$scope.pictures[$scope.currentPictureIndex].alreadyLiked && $scope.applicationUrl) {
+                            // First make the user believe he liked the picture,
+                            // before sending the request.
+                            // I made this because of the request's time, which
+                            // can be of 1-2 seconds and the user will be bored
+                            // to always wait for a while.
+                            $scope.pictures[$scope.currentPictureIndex].isPictureLiked = true;
+
+                            // Send a request to the local server so he can make the POST
+                            // like-request without any cross-origin issue.
+                            $http.get($scope.applicationUrl + "/like/" + $scope.pictures[$scope.currentPictureIndex].id).then(
+                                function success(response) {
+                                    // Checks if an error occured.
+                                    if (response.data.error) {
+                                        // Reset the "fake" like on the image, because
+                                        // the picture was not really liked.
+                                        $scope.pictures[$scope.currentPictureIndex].isPictureLiked = false;
+
+                                        switch (response.data.errorType) {
+                                            case "requestError":
+                                            case "unknowCode":
+                                                alert("Something wrong happened, please retry in a while.");
+                                                break;
+                                            case "rateLimit":
+                                                alert("You liked too many pictures in a short time (> 60 / hour), please retry in one hour.");
+                                                break;
+                                            // Redirects the user if the session expired.
+                                            case "sessionExpired":
+                                                alert("Your connection session expired, please reconnect.");
+                                                $window.location.href = "/";
+                                                break;
+                                        }
+                                    }
+                                    // If there is no error we can like the picture
+                                    // in the GUI.
+                                    else {
+                                        ++$scope.currentPictureIndex;
+                                        //$scope.pictures[$scope.currentPictureIndex++].isPictureLiked = true;
+                                        cleanPictureSwitch();
+                                    }
+                                },
+                                function error(response) {
+                                    $scope.pictures[$scope.currentPictureIndex].isPictureLiked = false;
+                                    alert("Something wrong happened, please retry in a while.");
+                                }
+                            );
+                        }
+                        // If the picture is already liked we don't have to like it again.
+                        else {
+                            $scope.pictures[$scope.currentPictureIndex++].isPictureLiked = true;
+                            cleanPictureSwitch();
+                        }
                     }
-
-                    // Remove the picture after a while.
-                    setTimeout(function() {
-                        $("#picture" + ($scope.firstDisplayedPictureIndex++)).remove();
-                        $("#picture" + $scope.firstDisplayedPictureIndex + 2).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, i)) + "deg)");
-
-                        //$compile($("#picture" + $scope.firstDisplayedPictureIndex));
-
-                        $scope.$apply();
-                    }, 850);
                 }
             }
         });

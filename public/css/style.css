@@ -176,15 +176,12 @@ a:hover, a:focus, a:active {
     transform: translateX(-50%);
 }
 
-.pictures {
-    display: none;
-}
-
 .picture-wrapper {
     background-color: white;
     border: 1px solid gray;
     border-radius: 5px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    display: none;
     height: 638px;
     margin: 50px 0 40px 50%;
     position: absolute;
@@ -223,9 +220,13 @@ a:hover, a:focus, a:active {
     top: 15px;
     text-align: left;
     transform: rotate(5deg);
-    transition: opacity 250ms;
+    transition: height 500ms, opacity 250ms;
     width: 200px;
     z-index: 1;
+}
+
+.note:hover {
+    height: 300px;
 }
 
 .note-transparent {
