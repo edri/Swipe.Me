@@ -148,6 +148,14 @@ a:hover, a:focus, a:active {
     opacity: 1;
 }
 
+.low-opacity {
+    opacity: 0.5;
+}
+
+*:hover {
+    opacity: 1;
+}
+
 .error-content {
     padding: 20px;
 }

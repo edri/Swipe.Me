@@ -4,7 +4,7 @@ block content
     // The user must be connected to access the page.
     if username
         section(ng-controller="SwiperController" ng-init='accessToken = "#{accessToken}"; applicationUrl = "#{applicationUrl}"')
-            h1.title #{title}
+            h1.title(ng-class='{"low-opacity": numberOfPictures > 0}') #{title}
             
             .header(ng-class='{"header-small": numberOfPictures > 0}')
                 .connected-content
@@ -21,7 +21,7 @@ block content
                         strong \#{{hashtagName}}
                         span(ng-if='numberOfPictures >= 0') , including 
                             strong {{numberOfPictures}}
-                            |  public ones
+                            |  public one(s)
                         | .
                     .result-information(ng-if='numberOfMedia == 0')
                         | Sorry there is no result for 
