@@ -36,11 +36,13 @@ block content
                     .note(ng-class='{"note-transparent": pic.isMouseOverPicture}' ng-mouseleave='pic.isMouseOverNote = false' ng-mouseover='pic.isMouseOverNote = true')
                         .hashtags-section
                             {{pic.description}}
-                        hr.note-separation
-                        strong 
-                            | Author: 
-                            a(href='https://www.instagram.com/{{pic.username}}/' target='_blank') {{pic.username}}
-                    img.picture(alt='{{pic.description}}' ng-mouseleave='pic.isMouseOverPicture = false' ng-mouseover='pic.isMouseOverPicture = true' ng-src='{{pic.url}}')
+                        .author-section
+                            hr.note-separation
+                            strong 
+                                | Author: 
+                                a(href='https://www.instagram.com/{{pic.username}}/' target='_blank') {{pic.username}}
+                    a(href='{{pic.url}}' target='_blank')
+                        img.picture(alt='{{pic.description}}' ng-mouseleave='pic.isMouseOverPicture = false' ng-mouseover='pic.isMouseOverPicture = true' ng-src='{{pic.pictureUrl}}')
                     .picture-buttons
                         .reject-button(data-toggle='tooltip' data-placement='top' id='reject-button{{$index + firstDisplayedPictureIndex}}' ng-click='reject()' title="Meh, I dont like it.")
                         span.arrows-info

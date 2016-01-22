@@ -214,19 +214,20 @@ a:hover, a:focus, a:active {
     background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #fefdca 0%, #f7f381 100%) repeat scroll 0 0;
     border: 1px solid black;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-    padding: 10px;
+    height: 73px;
     position: absolute;
     right: 10px;
     top: 15px;
     text-align: left;
     transform: rotate(5deg);
-    transition: height 500ms, opacity 250ms;
+    transition: height 200ms, opacity 250ms, width 200ms;
     width: 200px;
     z-index: 1;
 }
 
 .note:hover {
     height: 300px;
+    width: 300px;
 }
 
 .note-transparent {
@@ -234,10 +235,27 @@ a:hover, a:focus, a:active {
 }
 
 .hashtags-section {
+    max-height: 28px;
     overflow: hidden;
+    padding: 10px;
     text-overflow: ellipsis;
+    transition: max-height 200ms;
     white-space: nowrap;
-    width: 178px;
+    width: 100%;
+}
+
+.note:hover .hashtags-section {
+    max-height: 263px;
+    overflow: auto;
+    text-overflow: clip;
+    white-space: normal;
+}
+
+.author-section {
+    bottom: 0;
+    padding: 10px;
+    position: absolute;
+    width: 100%;
 }
 
 .note-separation {

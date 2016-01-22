@@ -133,8 +133,8 @@
                                                         // Only put useful data in array.
                                                         $scope.pictures.push({
                                                             id: data.id,
-                                                            url: data.images.standard_resolution.url,
-                                                            //url: data.images.thumbnail.url,
+                                                            pictureUrl: data.images.standard_resolution.url,
+                                                            url: data.link,
                                                             description: data.caption.text,
                                                             username: data.caption.from.username,
                                                             alreadyLiked: data.user_has_liked,
@@ -201,6 +201,9 @@
                 }
             };
 
+            // Occured when a picture has been swiped (rejected or liker).
+            // Deletes the element (memory optimization) and operate some design
+            // effects on the new-appeared picture.
             function cleanPictureSwitch() {
                 // Remove the picture after a while.
                 setTimeout(function() {
@@ -216,6 +219,8 @@
                 }, 1000);
             }
 
+            // Deal the given error, comming from the reject() or like() scope's
+            // method.
             function dealActionErrors(errorType) {
                 switch (errorType) {
                     case "rateLimit":
