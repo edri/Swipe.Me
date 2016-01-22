@@ -103,92 +103,118 @@
                 // Only make the request if the user's token is set and if the
                 // user entered at least one hashtag.
                 if ($scope.accessToken && $scope.hashtag) {
-                    $http.jsonp("https://api.instagram.com/v1/tags/" + $scope.hashtag + "?access_token=" + $scope.accessToken + "&callback=JSON_CALLBACK").then(
+                    // The session must still be active.
+                    $http.get($scope.applicationUrl + "/isSessionActive").then(
                         function success(response) {
-                            // Checks if the response is positive.
-                            if (response.data.meta.code === 200) {
-                                // Sets stats values.
-                                $scope.numberOfMedia = response.data.data.media_count;
-                                $scope.hashtagName = response.data.data.name;
+                            // If the session is still active we can do a request
+                            // to the Instafram API to get pictures related to
+                            // the given tag.
+                            if (response.data) {
+                                $http.jsonp("https://api.instagram.com/v1/tags/" + $scope.hashtag + "?access_token=" + $scope.accessToken + "&callback=JSON_CALLBACK").then(
+                                    function success(response) {
+                                        // Checks if the response is positive.
+                                        if (response.data.meta.code === 200) {
+                                            // Sets stats values.
+                                            $scope.numberOfMedia = response.data.data.media_count;
+                                            $scope.hashtagName = response.data.data.name;
 
-                                // Gets 100 pictures if there is more than 0 results.
-                                // Don't worry we're just getting images URL so it won't
-                                // slow down the system.
-                                if (response.data.data.media_count > 0) {
-                                    $http.jsonp("https://api.instagram.com/v1/tags/" + $scope.hashtag + "/media/recent?count=100&access_token=" + $scope.accessToken + "&callback=JSON_CALLBACK").then(
-                                        function success(response) {
-                                            $scope.numberOfPictures = response.data.data.length;
+                                            // Gets 100 pictures if there is more than 0 results.
+                                            // Don't worry we're just getting images URL so it won't
+                                            // slow down the system.
+                                            if (response.data.data.media_count > 0) {
+                                                $http.jsonp("https://api.instagram.com/v1/tags/" + $scope.hashtag + "/media/recent?count=100&access_token=" + $scope.accessToken + "&callback=JSON_CALLBACK").then(
+                                                    function success(response) {
+                                                        $scope.numberOfPictures = response.data.data.length;
 
-                                            // Checks if there is more than 0 public picture.
-                                            if (response.data.data.length > 0) {
-                                                // (Re)initializes pictures array and scope data.
-                                                $scope.pictures = [];
-                                                $scope.currentPictureIndex = 0;
-                                                $scope.firstDisplayedPictureIndex = 0;
-                                                $("#pictures").show();
+                                                        // Checks if there is more than 0 public picture.
+                                                        if (response.data.data.length > 0) {
+                                                            // (Re)initializes pictures array and scope data.
+                                                            $scope.pictures = [];
+                                                            $scope.currentPictureIndex = 0;
+                                                            $scope.firstDisplayedPictureIndex = 0;
+                                                            $("#pictures").show();
 
-                                                // Add each picture's data in scope.
-                                                angular.forEach(response.data.data, function(data) {
-                                                    if (data.type === "image") {
-                                                        // Only put useful data in array.
-                                                        $scope.pictures.push({
-                                                            id: data.id,
-                                                            pictureUrl: data.images.standard_resolution.url,
-                                                            url: data.link,
-                                                            description: data.caption.text,
-                                                            username: data.caption.from.username,
-                                                            alreadyLiked: data.user_has_liked,
-                                                            isMouseOverPicture: false,
-                                                            isMouseOverNote: false,
-                                                            isPictureRejected: false,
-                                                            isPictureLiked: false
-                                                        });
-                                                    }
-                                                });
+                                                            // Add each picture's data in scope.
+                                                            angular.forEach(response.data.data, function(data) {
+                                                                if (data.type === "image") {
+                                                                    // Only put useful data in array.
+                                                                    $scope.pictures.push({
+                                                                        id: data.id,
+                                                                        pictureUrl: data.images.standard_resolution.url,
+                                                                        url: data.link,
+                                                                        description: data.caption.text,
+                                                                        username: data.caption.from.username,
+                                                                        alreadyLiked: data.user_has_liked,
+                                                                        isMouseOverPicture: false,
+                                                                        isMouseOverNote: false,
+                                                                        isPictureRejected: false,
+                                                                        isPictureLiked: false
+                                                                    });
+                                                                }
+                                                            });
 
-                                                // Fades the first 3 pictures in and rotate them after a while.
-                                                setTimeout(function() {
-                                                    // Randomly rotates each picture but the first.
-                                                    for (var i = 0; i < 3; ++i) {
-                                                        $("#picture" + i).fadeIn("fast");
-                                                        $("#reject-button" + i).tooltip();
-                                                        $("#like-button" + i).tooltip();
+                                                            // Fades the first 3 pictures in and rotate them after a while.
+                                                            setTimeout(function() {
+                                                                // Randomly rotates each picture but the first.
+                                                                for (var i = 0; i < 3; ++i) {
+                                                                    $("#picture" + i).fadeIn("fast");
+                                                                    $("#reject-button" + i).tooltip();
+                                                                    $("#like-button" + i).tooltip();
 
-                                                        if (i > 0) {
-                                                            $("#picture" + i).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, i)) + "deg)");
+                                                                    if (i > 0) {
+                                                                        $("#picture" + i).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, i)) + "deg)");
+                                                                    }
+                                                                }
+                                                            }, 200);
+
+                                                            $("#logo").fadeOut("fast");
+                                                            $("#hashtagInput").blur();
                                                         }
-                                                    }
-                                                }, 200);
+                                                        else {
+                                                            resetFields(false);
+                                                        }
 
-                                                $("#logo").fadeOut("fast");
-                                                $("#hashtagInput").blur();
+                                                        resetButton();
+                                                    },
+                                                    function error(response) {
+                                                        $scope.errorhashtag = "Oops... Something wrong happened when getting pictures, please retry in a while.";
+                                                        resetFields(true);
+                                                        resetButton();
+                                                    }
+                                                );
                                             }
                                             else {
                                                 resetFields(false);
+                                                resetButton();
                                             }
-
-                                            resetButton();
-                                        },
-                                        function error(response) {
-                                            $scope.errorhashtag = "Oops... Something wrong happened when getting pictures, please retry in a while.";
+                                        }
+                                        // The user did too many requests in a short time.
+                                        else if (response.data.meta.code === 429) {
+                                            $scope.errorhashtag = "You did too many requests in a short time... Please retry in one hour.";
                                             resetFields(true);
                                             resetButton();
                                         }
-                                    );
-                                }
-                                else {
-                                    resetFields(false);
-                                    resetButton();
-                                }
+                                        else {
+                                            $scope.errorhashtag = response.data.meta.error_message;
+                                            resetFields(true);
+                                            resetButton();
+                                        }
+                                    },
+                                    function error(response) {
+                                        $scope.errorhashtag = "Oops... Something wrong happened when getting hashtag's stats, please retry in a while.";
+                                        resetFields(true);
+                                        resetButton();
+                                    }
+                                );
                             }
+                            // If there is no more session the user is redirected.
                             else {
-                                $scope.errorhashtag = response.data.meta.error_message;
-                                resetFields(true);
-                                resetButton();
+                                alert("Your connection session expired, please reconnect.");
+                                $window.location.href = "/";
                             }
                         },
                         function error(response) {
-                            $scope.errorhashtag = "Oops... Something wrong happened when getting hashtag's stats, please retry in a while.";
+                            $scope.errorhashtag = "Oops... Something wrong happened, please retry in a while.";
                             resetFields(true);
                             resetButton();
                         }

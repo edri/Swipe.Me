@@ -34,7 +34,7 @@ app.use(routes.session({
     secret: 'KJD9UIcn93iD$93#awZ',
     resave: true,
     saveUninitialized: false,
-    cookie: {maxAge: 3600000}
+    cookie: {maxAge: 10000}
 }));
 
 app.use('/', routes.router);

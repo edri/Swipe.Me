@@ -93,6 +93,16 @@ router.get('/swiper', function(req, res) {
     }
 });
 
+// Send back a boolean, which indicate if the session is currently active or not.
+router.get('/isSessionActive', function(req, res) {
+    if (req.session.accessToken) {
+        res.send(true);
+    }
+    else {
+        res.send(false);
+    }
+});
+
 // Sends or delete a like for the given picture to the Instagram API.
 // Paramerets:
 //      - action_type: 'like' or 'dislike'.
