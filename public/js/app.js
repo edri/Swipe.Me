@@ -73,6 +73,45 @@
                 $scope.showPicsButtonLabel = "Show me some pics!";
             }
 
+            // Occured when a picture has been swiped (rejected or liker).
+            // Deletes the element (memory optimization) and operate some design
+            // effects on the new-appeared picture.
+            function cleanPictureSwitch() {
+                // Remove the picture after a while.
+                setTimeout(function() {
+                    $("#picture" + ($scope.firstDisplayedPictureIndex++)).remove();
+                    $scope.$apply();
+                }, 850);
+                // Then show the new picture in the pictures stack.
+                setTimeout(function() {
+                    $("#picture" + ($scope.firstDisplayedPictureIndex + 2)).fadeIn("fast");
+                    $("#picture" + ($scope.firstDisplayedPictureIndex + 2)).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, $scope.firstDisplayedPictureIndex + 2)) + "deg)");
+                    $("#reject-button" + ($scope.firstDisplayedPictureIndex + 2)).tooltip();
+                    $("#like-button" + ($scope.firstDisplayedPictureIndex + 2)).tooltip();
+                }, 1000);
+            }
+
+            // Deal the given error, comming from the reject() or like() scope's
+            // method.
+            function dealActionErrors(errorType) {
+                switch (errorType) {
+                    case "rateLimit":
+                        alert("You liked too many pictures in a short time (> 60 / hour), please retry in one hour.");
+                        break;
+                    // Redirects the user if the session expired.
+                    case "sessionExpired":
+                        alert("Your connection session expired, please reconnect.");
+                        $window.location.href = "/";
+                        break;
+                    case "requestError":
+                    case "unknowCode":
+                    case "unknowAction":
+                    default:
+                        alert("Something wrong happened, please retry in a while.");
+                        break;
+                }
+            }
+
             // Enables or disables the "Show me some pics!" button, depending on
             // whether the user entered a hashtag or not.
             $scope.validateHashtag = function(event) {
@@ -226,45 +265,6 @@
                     resetButton();
                 }
             };
-
-            // Occured when a picture has been swiped (rejected or liker).
-            // Deletes the element (memory optimization) and operate some design
-            // effects on the new-appeared picture.
-            function cleanPictureSwitch() {
-                // Remove the picture after a while.
-                setTimeout(function() {
-                    $("#picture" + ($scope.firstDisplayedPictureIndex++)).remove();
-                    $scope.$apply();
-                }, 850);
-                // Then show the new picture in the pictures stack.
-                setTimeout(function() {
-                    $("#picture" + ($scope.firstDisplayedPictureIndex + 2)).fadeIn("fast");
-                    $("#picture" + ($scope.firstDisplayedPictureIndex + 2)).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, $scope.firstDisplayedPictureIndex + 2)) + "deg)");
-                    $("#reject-button" + ($scope.firstDisplayedPictureIndex + 2)).tooltip();
-                    $("#like-button" + ($scope.firstDisplayedPictureIndex + 2)).tooltip();
-                }, 1000);
-            }
-
-            // Deal the given error, comming from the reject() or like() scope's
-            // method.
-            function dealActionErrors(errorType) {
-                switch (errorType) {
-                    case "rateLimit":
-                        alert("You liked too many pictures in a short time (> 60 / hour), please retry in one hour.");
-                        break;
-                    // Redirects the user if the session expired.
-                    case "sessionExpired":
-                        alert("Your connection session expired, please reconnect.");
-                        $window.location.href = "/";
-                        break;
-                    case "requestError":
-                    case "unknowCode":
-                    case "unknowAction":
-                    default:
-                        alert("Something wrong happened, please retry in a while.");
-                        break;
-                }
-            }
 
             // Rejects the current picture.
             $scope.reject = function() {

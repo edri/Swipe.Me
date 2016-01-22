@@ -30,6 +30,31 @@ router.get('/', function(req, res) {
     }
 });
 
+/* GET policy page. */
+router.get('/policy', function(req, res) {
+    res.render('policy', {
+        title: APPLICATION_NAME + ' - Policy',
+        applicationName: APPLICATION_NAME,
+        username: req.session.username
+    });
+});
+
+/* GET swiper page. */
+router.get('/swiper', function(req, res) {
+    // The user must be connected to access the action.
+    if (req.session.username) {
+        res.render('swiper', {
+            title: APPLICATION_NAME,
+            applicationUrl: APPLICATION_URL,
+            username: req.session.username,
+            accessToken: req.session.accessToken
+        });
+    }
+    else {
+        res.redirect('/');
+    }
+});
+
 // This request is where the Instagram API will send the code generated for the
 // user who accepted to share its data with the application.
 router.get('/auth', function(req, res) {
@@ -77,20 +102,10 @@ router.get('/auth', function(req, res) {
     }
 });
 
-/* GET swiper page. */
-router.get('/swiper', function(req, res) {
-    // The user must be connected to access the action.
-    if (req.session.username) {
-        res.render('swiper', {
-            title: APPLICATION_NAME,
-            applicationUrl: APPLICATION_URL,
-            username: req.session.username,
-            accessToken: req.session.accessToken
-        });
-    }
-    else {
-        res.redirect('/');
-    }
+// Logout the connected user.
+router.get('/logout', function(req, res) {
+    req.session.destroy();
+    res.redirect('/');
 });
 
 // Send back a boolean, which indicate if the session is currently active or not.
@@ -169,21 +184,6 @@ router.get('/action/:action_type/:picture_id', function(req, res) {
             errorType: "sessionExpired"
         });
     }
-});
-
-// Logout the connected user.
-router.get('/logout', function(req, res) {
-    req.session.destroy();
-    res.redirect('/');
-});
-
-/* GET policy page. */
-router.get('/policy', function(req, res) {
-    res.render('policy', {
-        title: APPLICATION_NAME + ' - Policy',
-        applicationName: APPLICATION_NAME,
-        username: req.session.username
-    });
 });
 
 module.exports = {router, session};

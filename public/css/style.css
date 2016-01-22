@@ -231,6 +231,7 @@ a:hover, a:focus, a:active {
     background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #fefdca 0%, #f7f381 100%) repeat scroll 0 0;
     border: 1px solid black;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
     height: 73px;
     position: absolute;
     right: 10px;
