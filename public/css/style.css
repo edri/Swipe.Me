@@ -82,6 +82,7 @@ a:hover, a:focus, a:active {
 
 .slogan {
     color: #2f384f;
+    display: none;
     font-family: sans-serif;
     font-size: 3.25vh;
     font-weight: bold;

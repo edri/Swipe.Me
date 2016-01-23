@@ -2,7 +2,8 @@ extends layout
 
 block content
     img.index-logo#logo(src='/img/logo.png')
-    .slogan &ldquo;Left to reject, right to like!&rdquo;
+    .slogan#slogan
+        | &ldquo;Left to reject, right to like!&rdquo;
 
     if error
         .panel.panel-danger.connection-error
@@ -19,7 +20,7 @@ block content
 
     script.
         $(document).ready(function() {
-            $("#logo").fadeIn("slow", function() {
+            $("#logo, #slogan").fadeIn("slow", function() {
                 $("#connection-panel").addClass("connection-panel-visible");
             });
         });
