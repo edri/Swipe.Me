@@ -77,9 +77,29 @@
             // Deletes the element (memory optimization) and operate some design
             // effects on the new-appeared picture.
             function cleanPictureSwitch() {
+                // Display an information message under the current picture if it
+                // is the penultimate one.
+                if ($scope.currentPictureIndex === $scope.numberOfPictures) {
+                    // Copies the current hashtag in a temporary scope variable
+                    // so we will be able to display the old tag in the "no more
+                    // picture" message and we can reset the real hashtag's value.
+                    $scope.hashtagCopy = $scope.hashtag;
+                    $scope.hashtag = "";
+                }
+
                 // Remove the picture after a while.
                 setTimeout(function() {
                     $("#picture" + ($scope.firstDisplayedPictureIndex++)).remove();
+
+                    // Resets values if this was the last value.
+                    if ($scope.currentPictureIndex === $scope.numberOfPictures) {
+                        $scope.numberOfMedia = null;
+                        $scope.numberOfPictures = null;
+                        $("#hashtagInput").focus();
+                    }
+
+                    // Applies scope's changes because of the setTimeout function
+                    // (updates can't be automatically get by Angular in this case).
                     $scope.$apply();
                 }, 850);
                 // Then show the new picture in the pictures stack.
@@ -115,6 +135,10 @@
             // Enables or disables the "Show me some pics!" button, depending on
             // whether the user entered a hashtag or not.
             $scope.validateHashtag = function(event) {
+                $scope.hashtagCopy = null;
+                $("#pictures").hide();
+                $("#logo").fadeIn("fast");
+
                 // The event is irrevelant for the 'Enter' key so we ignore it.
                 if (event.keyCode != 13) {
                     if ($scope.hashtag) {
@@ -204,7 +228,7 @@
                                                                         $("#picture" + i).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, i)) + "deg)");
                                                                     }
                                                                 }
-                                                            }, 200);
+                                                            }, 400);
 
                                                             $("#logo").fadeOut("fast");
                                                             $("#hashtagInput").blur();

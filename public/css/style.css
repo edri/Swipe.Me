@@ -330,6 +330,26 @@ a:hover, a:focus, a:active {
     background: rgba(0, 0, 0, 0.15) url("/img/like_filled.png") no-repeat scroll 14px 18px / 40px 35px;
 }
 
+.message-no-more-picture {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid black;
+    border-radius: 3px;
+    bottom: 35vh;
+    font-size: 2.5vh;
+    font-weight: bold;
+    margin: 0 0 0 50%;
+    opacity: 0;
+    padding: 4vh;
+    position: absolute;
+    transform: translateX(-50%);
+    transition: opacity 300ms;
+    width: 800px;
+}
+
+.message-no-more-picture-visible {
+    opacity: 1;
+}
+
 .arrows-info {
     left: 50%;
     position: absolute;

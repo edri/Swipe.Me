@@ -52,3 +52,7 @@ block content
                             span.glyphicon.glyphicon-arrow-right
                             |  keys to quickly make a choice.
                         .like-button(data-toggle='tooltip' data-placement='top' id='like-button{{$index + firstDisplayedPictureIndex}}' ng-class='{"like-button-active": pic.isPictureLiked || pic.alreadyLiked || currentPictureInLikeRequest}' ng-click='like()' title='Amazing, take my like!')
+                .message-no-more-picture(ng-class='{"message-no-more-picture-visible": hashtagCopy}')
+                    p Wow you just browsed all available pictures for \#{{hashtagCopy}}!
+                    br
+                    | Please type a new hashtag in the input.
