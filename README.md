@@ -6,7 +6,7 @@ Website: http://swipe-me.herokuapp.com/
 Because the website is still in sandbox mode, everybody cannot access it. If you *really* want to try it out, just send me an [email](mailto:miguel.santamaria@heig-vd.ch) and I'll be proud to give you an access. If you also have some feedbacks I'll be happy to read them!  
 The sandbox mode also have another big disadvantage: you cannot access any of the users' pictures but mine (which is not totally useless for me because I can get some free likes, hehe). To ensure you'll correctly find pictures, please enter one of the following hashtags: **#europe** (>= 18 available pictures), **#trip** (>= 11 pictures), **#valais** (>= 5 pictures), **#spain** (>= 1 picture(s)).
 
-I made all my tests with a 1920x1080p resolution, and with the last version of Firefox as a priority and then a little bit with Chromium, so don't blame me if there is still some issues in other browsers, I planed to correct them.
+I made all my tests with a 1920x1080p resolution, and with the last version of Firefox as a priority and then a little bit with Chromium, so don't blame me if there is still some issues in other browsers ; I planed to correct them.
 
 ## Information
 
@@ -82,7 +82,7 @@ Everything is well commented so don't be shy and feel free to check out my code!
 There is still a lot of things to do in a close future, like:
 
     * Asks Instagram to post the application out of the sandbox!
-    * Smartphone compatibility
+    * Offers a Smartphone compatibility.
     * Concurrency is currently working, but can create some minor display bugs.
     
 Don't forget to stay in touch with my GitHub repository!
