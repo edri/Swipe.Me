@@ -11,7 +11,8 @@ I made all my tests on priority with the last version of Firefox and then a litt
 ## Information
 
 ### What is Swipe.Me?
-Swipe.Me is a Instagram non-official application, which allows you to swipe pictures to either reject or like them : left swipe to reject, right swipe to like!
+Swipe.Me is a Instagram non-official application, which allows you to swipe pictures to either reject or like them : left swipe to reject, right swipe to like!  
+This project was developed in 2016 in the context of a personal project, during the TWEB course of my school ([HEIG-VD](http://www.heig-vd.ch/) - Switzerland).
 
 ### How to use it?
 First thing first, you **must** have an Instagram account. If you still don't own one, just [click here](https://www.instagram.com/).  
