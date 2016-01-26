@@ -5,13 +5,18 @@
 @info-color: #E7DFDC;
 @info-color-hover: #ACADBA;
 // SIZES
-@title-margin-top: 2vh;
-@title-margin-bottom: 1vh;
+@title-margin-top: 6.5vh;
 @title-font-size: 4.1vh;
-@header-height: 59px;
+@title-small-margin-top: 2vh;
+@title-small-margin-bottom: 1vh;
+@header-margin: 5vh;
 @header-padding: 2vh;
+@header-height: 34px;
+@header-small-height: 59px;
+@swiper-logo-margin: 12.5vh;
+@swiper-logo-height: "100vh - @{title-margin-top} - @{title-font-size} - @{header-margin} - 2 * @{header-padding} - @{header-height} - 2px - 2 * @{swiper-logo-margin}";
 @picture-wrapper-margin: 5vh;
-@picture-wrapper-height: ~"100vh - @{title-margin-top} - @{title-margin-bottom} - @{title-font-size} - 2 * @{header-padding} - 2 * @{picture-wrapper-margin} - @{header-height} - 2px";
+@picture-wrapper-height: ~"100vh - @{title-small-margin-top} - @{title-small-margin-bottom} - @{title-font-size} - 2 * @{header-padding} - @{header-small-height} - 2px - 2 * @{picture-wrapper-margin}";
 @picture-buttons-height: 10.8vh;
 @picture-wrapper-width: ~"@{picture-wrapper-height} - @{picture-buttons-height}";
 @picture-buttons-padding-height: 1.5vh;
@@ -19,6 +24,10 @@
 @picture-button-height: @picture-buttons-height - 2 * @picture-buttons-padding-height;
 @picture-button-background-size: 4.5vh;
 @picture-button-like-background-width: 3.9vh;
+@panel-no-more-picture-padding: 4vh;
+@panel-no-more-picture-line-height: 4vh;
+@panel-no-more-picture-height: ~"(2 * @{panel-no-more-picture-padding} + 2 * @{panel-no-more-picture-line-height} + 2px)";
+@panel-no-more-picture-bottom: ~"(100vh - @{title-margin-top} - @{title-font-size} - @{header-margin} - 2 * @{header-padding} - @{header-height} - 2px) / 2";
 
 // GLOBAL SCOPE
 @font-face {
@@ -88,7 +97,7 @@ a {
 }
 
 .title-small {
-    margin: @title-margin-top 0 @title-margin-bottom 0;
+    margin: @title-small-margin-top 0 @title-small-margin-bottom 0;
     opacity: 0.5;
 }
 
@@ -174,12 +183,12 @@ a {
     border-radius: 3px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
     margin: 50px auto;
-    margin: 5vh auto;
+    margin: @header-margin auto;
     opacity: 1;
     padding: 20px;
     padding: @header-padding;
     transition: margin 500ms, opacity 500ms;
-    width: 800px;
+    width: 50%;
 }
 
 .header-small {
@@ -188,6 +197,11 @@ a {
     &:hover {
         opacity: 1;
     }
+}
+
+.hashtag-input-group * {
+    font-size: 1.5vh;
+    height: auto;
 }
 
 .error-content {
@@ -210,10 +224,10 @@ a {
 
 .swiper-logo {
     bottom: 125px;
-    bottom: 12.5vh;
+    bottom: @swiper-logo-margin;
     display: none;
     height: 500px;
-    height: 50vh;
+    height: ~"calc(@{swiper-logo-height})";
     left: 0;
     margin-left: 50%;
     position: absolute;
@@ -388,18 +402,23 @@ a {
     border: 1px solid black;
     border-radius: 3px;
     bottom: 350px;
-    bottom: 35vh;
+    bottom: ~"calc(@{panel-no-more-picture-bottom})";
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
     font-size: 25px;
-    font-size: 2.5vh;
+    font-size: 2.3vh;
     font-weight: bold;
-    margin: 0 0 0 50%;
+    height: 72px;
+    height: ~"calc(@{panel-no-more-picture-height})";
+    line-height: @panel-no-more-picture-line-height;
+    margin-left: 50%;
     opacity: 0;
+    overflow: auto;
     padding: 40px;
-    padding: 4vh;
+    padding: @panel-no-more-picture-padding;
     position: absolute;
     transform: translateX(-50%);
     transition: opacity 300ms;
-    width: 800px;
+    width: 50%;
 }
 
 .message-no-more-picture-visible {
