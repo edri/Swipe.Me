@@ -1,6 +1,8 @@
 (function() {
     var appModule = angular.module("Swipe.Me", [])
         .controller("SwiperController", function($scope, $http, $window) {
+            var actionUnderway = false;
+
             // Indicates the maximum number of displayed pictures at the same time.
             $scope.numberMaxPictures = 5;
 
@@ -77,6 +79,8 @@
             // Deletes the element (memory optimization) and operate some design
             // effects on the new-appeared picture.
             function cleanPictureSwitch() {
+                actionUnderway = false;
+
                 // Displays an information message under the current picture if it
                 // is the penultimate one.
                 if ($scope.currentPictureIndex === $scope.numberOfPictures) {
@@ -115,6 +119,8 @@
             // Deal the given error, comming from the reject() or like() scope's
             // method.
             function dealActionErrors(errorType) {
+                actionUnderway = false;
+
                 switch (errorType) {
                     case "rateLimit":
                         alert("You liked too many pictures in a short time (> 60 / hour), please retry in one hour.");
@@ -297,7 +303,9 @@
 
             // Rejects the current picture.
             $scope.reject = function() {
-                if ($scope.currentPictureIndex < $scope.numberOfPictures) {
+                if (!actionUnderway && $scope.currentPictureIndex < $scope.numberOfPictures) {
+                    actionUnderway = true;
+
                     // Dislikes the picture if it is already liked by the user.
                     if ($scope.pictures[$scope.currentPictureIndex].alreadyLiked && $scope.applicationUrl) {
                         // First make the user believe he disliked the picture,
@@ -314,7 +322,7 @@
                             function success(response) {
                                 // Checks if an error occured.
                                 if (response.data.error) {
-                                    // Reset the "fake" dislike on the image, because
+                                    // Resets the "fake" dislike on the image, because
                                     // the picture was not really disliked.
                                     $scope.pictures[$scope.currentPictureIndex].isPictureRejected = false;
                                     dealActionErrors(response.data.errorType);
@@ -342,7 +350,9 @@
 
             // Likes the current picture.
             $scope.like = function() {
-                if ($scope.currentPictureIndex < $scope.numberOfPictures) {
+                if (!actionUnderway && $scope.currentPictureIndex < $scope.numberOfPictures) {
+                    actionUnderway = true;
+
                     // Likes the picture if it is not already liked by the user.
                     if (!$scope.pictures[$scope.currentPictureIndex].alreadyLiked && $scope.applicationUrl) {
                         // First make the user believe he liked the picture,
