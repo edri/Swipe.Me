@@ -1,15 +1,26 @@
-/* COLORS */
-@link-color: #3766ad;
-@link-hover-color: #3a37ad;
-@button-color: white;
-/* SIZES */
+// COLORS
+@link-color: #3766AD;
+@link-hover-color: #3A37AD;
+@button-color: #FFF;
+@info-color: #E7DFDC;
+@info-color-hover: #ACADBA;
+// SIZES
 @title-margin-top: 2vh;
 @title-margin-bottom: 1vh;
 @title-font-size: 4.1vh;
 @header-height: 59px;
 @header-padding: 2vh;
+@picture-wrapper-margin: 5vh;
+@picture-wrapper-height: ~"100vh - @{title-margin-top} - @{title-margin-bottom} - @{title-font-size} - 2 * @{header-padding} - 2 * @{picture-wrapper-margin} - @{header-height} - 2px";
+@picture-buttons-height: 10.8vh;
+@picture-wrapper-width: ~"@{picture-wrapper-height} - @{picture-buttons-height}";
+@picture-buttons-padding-height: 1.5vh;
+@picture-buttons-padding-width: 4vh;
+@picture-button-height: @picture-buttons-height - 2 * @picture-buttons-padding-height;
+@picture-button-background-size: 4.5vh;
+@picture-button-like-background-width: 3.9vh;
 
-/* GLOBAL SCOPE */
+// GLOBAL SCOPE
 @font-face {
   font-family: 'Lato';
   font-style: normal;
@@ -27,20 +38,18 @@ body {
 
 a {
     color: @link-color;
-}
-
-a:hover, a:focus, a:active {
-    color: @link-hover-color;
+    &:hover {
+        color: @link-hover-color;
+    }
 }
 
 .btn-swipe-me {
     background-color: @link-color;
     color: @button-color;
-}
-
-.btn-swipe-me:hover, .btn-swipe-me:focus, .btn-swipe-me:active {
-    background-color: @link-hover-color;
-    color: @button-color;
+    &:hover, &:focus, &:active {
+        background-color: @link-hover-color;
+        color: @button-color;
+    }
 }
 
 .status-bar {
@@ -55,12 +64,12 @@ a:hover, a:focus, a:active {
 }
 
 .username-link {
-    color: #E7DFDC;
+    color: @info-color;
     font-weight: bold;
 }
 
 .username-link:hover, .username-link:focus, .username-link:active {
-    color: #E7DFDC;
+    color: @info-color;
 }
 
 .btn-disconnect {
@@ -85,7 +94,7 @@ a:hover, a:focus, a:active {
 
 
 
-/* HOME PAGE */
+// HOME PAGE
 .index-logo {
     display: none;
     height: 46.5vh;
@@ -147,7 +156,7 @@ a:hover, a:focus, a:active {
 
 
 
-/* POLICY PAGE */
+// POLICY PAGE
 .policy-title {
     margin-top: 100px;
 }
@@ -158,7 +167,7 @@ a:hover, a:focus, a:active {
 
 
 
-/* SWIPER PAGE */
+// SWIPER PAGE
 .header {
     background-color: white;
     border: 1px solid black;
@@ -176,10 +185,9 @@ a:hover, a:focus, a:active {
 .header-small {
     margin: 0 auto;
     opacity: 0.5;
-}
-
-.header-small:hover {
-    opacity: 1;
+    &:hover {
+        opacity: 1;
+    }
 }
 
 .error-content {
@@ -219,24 +227,24 @@ a:hover, a:focus, a:active {
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
     display: none;
     height: 638px;
-    height: calc(~"100vh - 21.1vh - 61px");
+    height: ~"calc(@{picture-wrapper-height})";
     margin: 50px 0 40px 50%;
-    margin: 5vh 0 5vh 50%;
+    margin: @picture-wrapper-margin 0 @picture-wrapper-margin 50%;
     position: absolute;
     transform: translateX(-50%);
     transition: transform 750ms, margin 200ms;
     width: 538px;
-    width: calc(~"100vh - 21.1vh - 61px - 10.8vh");
+    width: ~"calc(@{picture-wrapper-width})";
 }
 
 .picture-wrapper-liked {
     margin: 0 0 0 50%;
-    transform: translateX(calc(~"50vw + 100px")) rotate(90deg) !important;
+    transform: translateX(calc(~"50vw + @{picture-buttons-height}")) rotate(90deg) !important;
 }
 
 .picture-wrapper-rejected {
     margin: 0 0 0 50%;
-    transform: translateX(calc(~"-50vw - 638px")) rotate(-90deg) !important;
+    transform: translateX(~"calc(-50vw - (@{picture-wrapper-height}))") rotate(-90deg) !important;
 }
 
 .paperclip {
@@ -269,11 +277,10 @@ a:hover, a:focus, a:active {
     transition: height 200ms, opacity 250ms, width 200ms;
     width: 200px;
     z-index: 1;
-}
-
-.note:hover {
-    height: 300px;
-    width: 300px;
+    &:hover {
+        height: 300px;
+        width: 300px;
+    }
 }
 
 .note-transparent {
@@ -310,66 +317,70 @@ a:hover, a:focus, a:active {
 }
 
 .picture {
-    background-color: #E7DFDC;
+    background-color: @info-color;
     border-radius: 5px;
     height: 536px;
-    height: calc(~"100vh - 21.1vh - 61px - 10.8vh - 1px");
+    height: ~"calc(@{picture-wrapper-width} - 2px)";
     padding: 30px;
     padding: 3vh;
     width: 536px;
-    width: calc(~"100vh - 21.1vh - 61px - 10.8vh - 2px");
+    width: ~"calc(@{picture-wrapper-width} - 2px)";
 }
 
 .picture-buttons {
     height: 100px;
-    height: 10.8vh;
+    height: @picture-buttons-height;
     padding: 15px 40px;
-    padding: 1.5vh 4vh;
+    padding: @picture-buttons-padding-height @picture-buttons-padding-width;
     position: relative;
 }
 
 .reject-button, .like-button {
     border: 1px solid black;
     border-radius: 35px;
-    border-radius: 3.9vh;
+    border-radius: @picture-button-height / 2;
     cursor: pointer;
     height: 70px;
-    height: 7.8vh;
+    height: @picture-button-height;
     width: 70px;
-    width: 7.8vh;
+    width: @picture-button-height;
 }
 
 .reject-button {
     background: rgba(0, 0, 0, 0) url("/img/cancel.png") no-repeat scroll;
-    background: rgba(0, 0, 0, 0) url("/img/cancel.png") no-repeat scroll;
     background-position: 14px 14px;
-    background-position: calc(~"(7.8vh - 4.5vh) / 2 - 1px") calc(~"(7.8vh - 4.5vh) / 2 - 1px");
+    background-position: calc(~"(@{picture-button-height} - @{picture-button-background-size}) / 2 - 1px") calc(~"(@{picture-button-height} - @{picture-button-background-size}) / 2 - 1px");
     background-size: 40px 40px;
-    background-size: 4.5vh 4.5vh;
+    background-size: @picture-button-background-size @picture-button-background-size;
     float: left;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.15);
+    }
 }
 
-.reject-button:hover {
-    background-color: rgba(0, 0, 0, 0.15);
+.like-button-picture {
+    background-position: 14px 18px;
+    background-position: calc(~"(@{picture-button-height} - @{picture-button-background-size}) / 2 - 1px") calc(~"(@{picture-button-height} - @{picture-button-like-background-width}) / 2 + 1px");
+    background-size: 40px 35px;
+    background-size: @picture-button-background-size @picture-button-like-background-width;
+}
+
+.like-button-picture-active {
+    background: rgba(0, 0, 0, 0.15) url("/img/like_filled.png") no-repeat scroll;
+    .like-button-picture;
 }
 
 .like-button {
     background: rgba(0, 0, 0, 0) url("/img/like_not_filled.png") no-repeat scroll;
-    background: rgba(0, 0, 0, 0) url("/img/like_not_filled.png") no-repeat scroll;
-    background-position: 14px 18px;
-    background-position: calc(~"(7.8vh - 4.5vh) / 2 - 1px") calc(~"(7.8vh - 3.9vh) / 2 + 1px");
-    background-size: 40px 35px;
-    background-size: 4.5vh 3.9vh;
     float: right;
+    .like-button-picture;
+    &:hover {
+        .like-button-picture-active
+    }
 }
 
-.like-button:hover, .like-button-active {
-    background: rgba(0, 0, 0, 0.15) url("/img/like_filled.png") no-repeat scroll;
-    background: rgba(0, 0, 0, 0.15) url("/img/like_filled.png") no-repeat scroll;
-    background-position: 14px 18px;
-    background-position: calc(~"(7.8vh - 4.5vh) / 2 - 1px") calc(~"(7.8vh - 3.9vh) / 2 + 1px");
-    background-size: 40px 35px;
-    background-size: 4.5vh 3.9vh;
+.like-button-active {
+    .like-button-picture-active
 }
 
 .message-no-more-picture {
@@ -396,13 +407,13 @@ a:hover, a:focus, a:active {
 }
 
 .arrows-info {
-    font-size: calc(~"(100vh - 21.1vh - 61px - 10.8vh) / 41");
+    font-size: calc(~"(@{picture-wrapper-width}) / 41");
     left: 50%;
     position: absolute;
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
     width: 300px;
-    width: calc(~"100% - (2 * 7.8vh + 2 * 4vh) - 2vh");
+    width: calc(~"100% - (2 * @{picture-button-height} + 2 * @{picture-buttons-padding-width}) - 2vh");
 }
 
 .footer {
@@ -414,24 +425,22 @@ a:hover, a:focus, a:active {
 }
 
 .page-author {
-    color: #E7DFDC;
+    color: @info-color;
     float: left;
 }
 
 .mailto-link {
-    color: #E7DFDC;
-}
-
-.mailto-link:hover, .mailto-link:focus, .mailto-link:active {
-    color: #ACADBA;
+    color: @info-color;
+    &:hover, &:focus, &:active {
+        color: @info-color-hover;
+    }
 }
 
 .policy-link {
-    color: #E7DFDC;
+    color: @info-color;
     float: right;
     text-decoration: underline;
-}
-
-.policy-link:hover, .policy-link:focus, .policy-link:active {
-    color: #ACADBA;
+    &:hover, &:focus, &:active {
+        color: @info-color-hover;
+    }
 }
