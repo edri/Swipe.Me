@@ -2,7 +2,7 @@
     var appModule = angular.module("Swipe.Me", [])
         .controller("SwiperController", function($scope, $http, $window) {
             // Indicates the maximum number of displayed pictures at the same time.
-            const MAX_IMAGES = 3;
+            $scope.numberMaxPictures = 5;
 
             // Indicates the current displayed picture's index.
             $scope.currentPictureIndex = 0;
@@ -77,7 +77,7 @@
             // Deletes the element (memory optimization) and operate some design
             // effects on the new-appeared picture.
             function cleanPictureSwitch() {
-                // Display an information message under the current picture if it
+                // Displays an information message under the current picture if it
                 // is the penultimate one.
                 if ($scope.currentPictureIndex === $scope.numberOfPictures) {
                     // Copies the current hashtag in a temporary scope variable
@@ -87,7 +87,7 @@
                     $scope.hashtag = "";
                 }
 
-                // Remove the picture after a while.
+                // Removes the picture after a while.
                 setTimeout(function() {
                     $("#picture" + ($scope.firstDisplayedPictureIndex++)).remove();
 
@@ -95,19 +95,20 @@
                     if ($scope.currentPictureIndex === $scope.numberOfPictures) {
                         $scope.numberOfMedia = null;
                         $scope.numberOfPictures = null;
+                        $scope.showPicsButtonDisabled = true;
                         $("#hashtagInput").focus();
                     }
 
-                    // Applies scope's changes because of the setTimeout function
+                    // Applys scope's changes because of the setTimeout function
                     // (updates can't be automatically get by Angular in this case).
                     $scope.$apply();
                 }, 850);
                 // Then show the new picture in the pictures stack.
                 setTimeout(function() {
-                    $("#picture" + ($scope.firstDisplayedPictureIndex + 2)).fadeIn("fast");
-                    $("#picture" + ($scope.firstDisplayedPictureIndex + 2)).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, $scope.firstDisplayedPictureIndex + 2)) + "deg)");
-                    $("#reject-button" + ($scope.firstDisplayedPictureIndex + 2)).tooltip();
-                    $("#like-button" + ($scope.firstDisplayedPictureIndex + 2)).tooltip();
+                    $("#picture" + ($scope.firstDisplayedPictureIndex + $scope.numberMaxPictures - 1)).fadeIn("fast");
+                    $("#picture" + ($scope.firstDisplayedPictureIndex + $scope.numberMaxPictures - 1)).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 4) * Math.pow(-1, $scope.firstDisplayedPictureIndex + $scope.numberMaxPictures - 1)) + "deg)");
+                    $("#reject-button" + ($scope.firstDisplayedPictureIndex + $scope.numberMaxPictures - 1)).tooltip();
+                    $("#like-button" + ($scope.firstDisplayedPictureIndex + $scope.numberMaxPictures - 1)).tooltip();
                 }, 1000);
             }
 
@@ -135,10 +136,6 @@
             // Enables or disables the "Show me some pics!" button, depending on
             // whether the user entered a hashtag or not.
             $scope.validateHashtag = function(event) {
-                $scope.hashtagCopy = null;
-                $("#pictures").hide();
-                $("#logo").fadeIn("fast");
-
                 // The event is irrevelant for the 'Enter' key so we ignore it.
                 if (event.keyCode != 13) {
                     if ($scope.hashtag) {
@@ -147,6 +144,14 @@
                     else {
                         $scope.showPicsButtonDisabled = true;
                     }
+                }
+
+                // Hides the "No more pictures" message if the user pressed a key
+                // different to the right or left arrows keys.
+                if (event.keyCode != 37 && event.keyCode != 39) {
+                      $scope.hashtagCopy = null;
+                      $("#pictures").hide();
+                      $("#logo").fadeIn("fast");
                 }
             }
 
@@ -216,10 +221,10 @@
                                                                 }
                                                             });
 
-                                                            // Fades the first 3 pictures in and rotate them after a while.
+                                                            // Fades the first pictures in and rotate them after a while.
                                                             setTimeout(function() {
                                                                 // Randomly rotates each picture but the first.
-                                                                for (var i = 0; i < 3; ++i) {
+                                                                for (var i = 0; i < $scope.numberMaxPictures; ++i) {
                                                                     $("#picture" + i).fadeIn("fast");
                                                                     $("#reject-button" + i).tooltip();
                                                                     $("#like-button" + i).tooltip();

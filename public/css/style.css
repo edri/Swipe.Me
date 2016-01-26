@@ -9,7 +9,7 @@
 body {
     background: rgba(0, 0, 0, 0) url("/img/background.jpg") no-repeat scroll 0 0 / 100% auto;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-    overflow-x: hidden;
+    overflow: hidden;
     text-align: center;
 }
 
@@ -67,7 +67,7 @@ a:hover, a:focus, a:active {
 }
 
 .title-small {
-    margin-top: 20px;
+    margin: 2vh 0 1vh 0;
     opacity: 0.5;
 }
 
@@ -200,14 +200,14 @@ a:hover, a:focus, a:active {
     background-color: white;
     border: 1px solid gray;
     border-radius: 5px;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
     display: none;
-    height: 638px;
-    margin: 50px 0 40px 50%;
+    height: calc(100vh - 21.1vh - 61px);
+    margin: 5vh 0 5vh 50%;
     position: absolute;
     transform: translateX(-50%);
     transition: transform 750ms, margin 200ms;
-    width: 538px;
+    width: calc(100vh - 21.1vh - 61px - 10.8vh);
 }
 
 .picture-wrapper-liked {
@@ -293,28 +293,27 @@ a:hover, a:focus, a:active {
 .picture {
     background-color: #E7DFDC;
     border-radius: 5px;
-    height: 536px;
-    padding: 30px;
-    width: 536px;
+    height: calc(100vh - 21.1vh - 61px - 10.8vh - 1px);
+    padding: 3vh;
+    width: calc(100vh - 21.1vh - 61px - 10.8vh - 2px);
 }
 
 .picture-buttons {
-    height: 100px;
-    padding: 15px 40px;
+    height: 10.8vh;
+    padding: 1.5vh 4vh;
     position: relative;
 }
 
 .reject-button, .like-button {
     border: 1px solid black;
-    border-radius: 35px;
+    border-radius: 3.9vh;
     cursor: pointer;
-    height: 70px;
-    padding: 10px;
-    width: 70px;
+    height: 7.8vh;
+    width: 7.8vh;
 }
 
 .reject-button {
-    background: rgba(0, 0, 0, 0) url("/img/cancel.png") no-repeat scroll 14px 14px / 40px 40px;
+    background: rgba(0, 0, 0, 0) url("/img/cancel.png") no-repeat scroll calc((7.8vh - 4.5vh) / 2 - 1px) calc((7.8vh - 4.5vh) / 2 - 1px) / 4.5vh 4.5vh;
     float: left;
 }
 
@@ -323,12 +322,12 @@ a:hover, a:focus, a:active {
 }
 
 .like-button {
-    background: rgba(0, 0, 0, 0) url("/img/like_not_filled.png") no-repeat scroll 14px 18px / 40px 35px;
+    background: rgba(0, 0, 0, 0) url("/img/like_not_filled.png") no-repeat scroll calc((7.8vh - 4.5vh) / 2 - 1px) calc((7.8vh - 3.9vh) / 2 + 1px) / 4.5vh 3.9vh;
     float: right;
 }
 
 .like-button:hover, .like-button-active {
-    background: rgba(0, 0, 0, 0.15) url("/img/like_filled.png") no-repeat scroll 14px 18px / 40px 35px;
+    background: rgba(0, 0, 0, 0.15) url("/img/like_filled.png") no-repeat scroll calc((7.8vh - 4.5vh) / 2 - 1px) calc((7.8vh - 3.9vh) / 2) / 4.5vh 3.9vh;
 }
 
 .message-no-more-picture {
@@ -352,11 +351,12 @@ a:hover, a:focus, a:active {
 }
 
 .arrows-info {
+    font-size: calc((100vh - 21.1vh - 61px - 10.8vh) / 41);
     left: 50%;
     position: absolute;
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
-    width: 300px;
+    width: calc(100% - (2 * 7.8vh + 2 * 4vh) - 2vh);
 }
 
 .footer {
