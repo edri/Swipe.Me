@@ -10,20 +10,20 @@ block content
                 .connected-content
                     .input-group.hashtag-input-group
                         span.input-group-addon #
-                        input.form-control.hashtag-input#hashtagInput(name='hashtag' ng-model='hashtag' ng-keyup='validateHashtag($event)' placeholder='Please enter a hashtag (e.g. "#pizza" or just "pizza")...' type='text')
+                        input.form-control#hashtagInput(name='hashtag' ng-model='hashtag' ng-keyup='validateHashtag($event)' placeholder='Please enter a hashtag (e.g. "#pizza" or just "pizza")...' type='text')
                         .input-group-btn
                             button.btn.btn-swipe-me.btn-show-pics#btnShowPics(data-toggle='tooltip' data-placement='bottom' ng-click='showPics()' ng-disabled='showPicsButtonDisabled' title='Let me show you pictures related to the tags you entered. You can either like or reject them as your convinence!') {{showPicsButtonLabel}}
                     .panel.panel-danger.error-hashtag(ng-if='errorhashtag')
                         .panel-heading.error-content
                             {{errorhashtag}}
-                    .result-information(ng-if='numberOfMedia')
+                    .result-information(ng-class='{"result-information-final": numberOfPictures}' ng-if='numberOfMedia && numberOfPictures')
                         | There is {{numberOfMedia}} existing media for 
                         strong \#{{hashtagName}}
                         span(ng-if='numberOfPictures >= 0') , including 
                             strong {{numberOfPictures}}
                             |  public one(s)
                         | .
-                    .result-information(ng-if='numberOfMedia == 0')
+                    .result-information(ng-class='{"result-information-final": numberOfMedia === 0}' ng-if='numberOfMedia === 0')
                         | Sorry there is no result for 
                         strong \#{{hashtagName}}
                         | ...
