@@ -78,6 +78,11 @@ You can find more information about the Instagram API's endpoints [here](https:/
 The AngularJS' part is related to the Swipe page. It contains one controller, which use $scope, $http (requests) and $window (redirections) contexts. There is some private functions, and other public ones related to the scope in it.  
 Everything is well commented so don't be shy and feel free to check out my code! :)  
 
+### Install & Run
+ 1. `npm install`
+ 2. Run server with `grunt`.
+ 3. Go to `http://localhost:3028/`.
+
 ### What's next?
 There is still a lot of things to do in a close future, like:
 
