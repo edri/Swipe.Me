@@ -4,9 +4,11 @@
   font-weight: 400;
   src: local('Lato Regular'), local('Lato-Regular'), url('/fonts/Lato.woff2') format('woff2');
 }
+html {
+  height: 100%;
+}
 body {
-  background: rgba(0, 0, 0, 0) url("/img/background.jpg") no-repeat scroll 0 0;
-  background-size: 100% auto;
+  background: rgba(0, 0, 0, 0) url("/img/background.jpg") no-repeat fixed center 0 / cover;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   overflow: hidden;
   text-align: center;
@@ -32,6 +34,7 @@ a:hover {
   font-size: 1.5vh;
   left: 0;
   padding: 10px 20px;
+  padding: 1.1vh 2vh;
   position: fixed;
   text-align: right;
   top: 0;
@@ -58,12 +61,14 @@ a:hover {
   font-family: 'Lato', sans-serif;
   font-size: 4.1vh;
   font-weight: bold;
+  margin-top: 60px;
   margin-top: 6.5vh;
   opacity: 1;
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   transition: margin-top 500ms, opacity 500ms;
 }
 .title-small {
+  margin: 20px 0 10px 0;
   margin: 2vh 0 1vh 0;
   opacity: 0.5;
 }
@@ -72,6 +77,7 @@ a:hover {
   font-size: 1.5vh;
   left: 0;
   padding: 10px 20px;
+  padding: 1.1vh 2vh;
   position: fixed;
   width: 100%;
 }
@@ -99,38 +105,47 @@ a:hover {
 }
 .index-logo {
   display: none;
+  height: 500px;
   height: 46.5vh;
-  margin-top: 6.5vh;
+  margin-top: 40px;
+  margin-top: 4vh;
 }
 .slogan {
+  border-radius: 4px;
   color: #2f384f;
   display: none;
   font-family: sans-serif;
+  font-size: 25px;
   font-size: 3.25vh;
   font-weight: bold;
-  margin: 4.3vh 0 0 50%;
-  padding: 5px;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin: 40px 0 0 50%;
+  margin: 4.5vh 0 0 50%;
+  text-shadow: -1px 0 20px #DFDEE3, 0 1px 20px #DFDEE3, 1px 0 20px #DFDEE3, 0 -1px 20px #DFDEE3;
   transform: translateX(-50%);
 }
 .connection-error {
   bottom: -10px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  font-size: 1.6vh;
   margin: 0 0 0 50%;
   position: absolute;
   transform: translateX(-50%);
-  width: 800px;
 }
 .connection-error-content {
-  padding: 20px 20px 30px 20px;
+  padding: 20px 30px 32px 30px;
+  padding: 2vh 3vw calc(2vh - -10px) 3vw;
 }
 .connection-panel {
   background: rgba(255, 255, 255, 0.6);
   border: 1px solid black;
   border-radius: 5px;
   bottom: -160px;
+  bottom: calc(-1 * (16px + 2 * 2vh + (2vh - -10px) + 2vh + 1vh + 2 * 1.6vh + 2.3vh));
+  font-size: 1.6vh;
+  height: calc(16px + 2 * 2vh + (2vh - -10px) + 2vh + 1vh + 2 * 1.6vh + 2.3vh);
   margin-left: 50%;
-  padding: 20px 80px 32px 80px;
+  padding: 20px 40px 32px 40px;
+  padding: 2vh 4vw calc(2vh - -10px) 4vw;
   position: absolute;
   transform: translateX(-50%);
   transition: bottom 750ms;
@@ -140,16 +155,20 @@ a:hover {
   bottom: -10px;
 }
 .welcome-message {
-  font-size: 18px;
+  font-size: 2vh;
   font-style: italic;
   font-weight: bold;
+  margin-bottom: 10px;
+  margin-bottom: 1vh;
 }
 .btn-login {
+  font-size: 1.6vh;
   margin-top: 20px;
-  width: 200px;
+  margin-top: 2.3vh;
+  width: 44%;
 }
 .policy-title {
-  margin-top: 100px;
+  margin-top: 12vh;
 }
 .policy-header {
   text-align: left;
@@ -162,6 +181,7 @@ a:hover {
   min-height: calc(12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh);
   margin: 50px auto;
   margin: 5vh auto;
+  min-width: 250px;
   opacity: 1;
   padding: 20px;
   padding: 2vh;
@@ -189,6 +209,7 @@ a:hover {
   margin-left: 10px !important;
 }
 .error-hashtag {
+  margin: 20px 0 0 0 !important;
   margin: 2vh 0 0 0 !important;
 }
 .result-information {
