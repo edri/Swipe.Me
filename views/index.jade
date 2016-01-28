@@ -19,6 +19,7 @@ block content
             a.btn.btn-swipe-me.btn-login(href='https://www.instagram.com/oauth/authorize/?client_id=#{clientId}&redirect_uri=#{applicationUrl}/auth&response_type=code&scope=public_content+likes') Login
 
     script.
+        // There is no Angular in this page so I use JQuery.
         $(document).ready(function() {
             $("#logo, #slogan").fadeIn("slow", function() {
                 $("#connection-panel").addClass("connection-panel-visible");
