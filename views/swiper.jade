@@ -44,14 +44,14 @@ block content
                     a(href='{{pic.url}}' target='_blank')
                         img.picture(alt='{{pic.description}}' ng-mouseleave='pic.isMouseOverPicture = false' ng-mouseover='pic.isMouseOverPicture = true' ng-src='{{pic.pictureUrl}}')
                     .picture-buttons
-                        .reject-button(data-toggle='tooltip' data-placement='top' id='reject-button{{$index + firstDisplayedPictureIndex}}' ng-click='reject()' title="Meh, I dont like it.")
+                        .reject-button(data-toggle='tooltip' data-placement='top' id='reject-button{{$index + firstDisplayedPictureIndex}}' ng-class='{"reject-button-active": pic.isPictureRejected}' ng-click='reject()' title="Meh, I dont like it.")
                         span.arrows-info
                             | Press 
                             span.glyphicon.glyphicon-arrow-left
                             |  or 
                             span.glyphicon.glyphicon-arrow-right
                             |  keys to quickly make a choice.
-                        .like-button(data-toggle='tooltip' data-placement='top' id='like-button{{$index + firstDisplayedPictureIndex}}' ng-class='{"like-button-active": pic.isPictureLiked || pic.alreadyLiked || currentPictureInLikeRequest}' ng-click='like()' title='Amazing, take my like!')
+                        .like-button(data-toggle='tooltip' data-placement='top' id='like-button{{$index + firstDisplayedPictureIndex}}' ng-class='{"like-button-active": (pic.isPictureLiked || pic.alreadyLiked) && !pic.isPictureRejected}' ng-click='like()' title='Amazing, take my like!')
                 .message-no-more-picture(ng-class='{"message-no-more-picture-visible": hashtagCopy}')
                     | Wow you just browsed all available pictures for \#{{hashtagCopy}}!
                     br

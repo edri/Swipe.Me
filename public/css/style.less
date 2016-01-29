@@ -452,16 +452,29 @@ a {
     width: @picture-button-height;
 }
 
-.reject-button {
-    background: rgba(0, 0, 0, 0) url("/img/cancel.png") no-repeat scroll;
+.reject-button-picture {
     background-position: 14px 14px;
     background-position: calc(~"(@{picture-button-height} - @{picture-button-background-size}) / 2 - 1px") calc(~"(@{picture-button-height} - @{picture-button-background-size}) / 2 - 1px");
     background-size: 40px 40px;
     background-size: @picture-button-background-size @picture-button-background-size;
+}
+
+.reject-button-picture-active {
+    background: rgba(0, 0, 0, 0.15) url("/img/cancel_filled.png") no-repeat scroll;
+    .reject-button-picture;
+}
+
+.reject-button {
+    background: rgba(0, 0, 0, 0) url("/img/cancel_not_filled.png") no-repeat scroll;
     float: left;
+    .reject-button-picture;
     &:hover {
-        background-color: rgba(0, 0, 0, 0.15);
+        .reject-button-picture-active
     }
+}
+
+.reject-button-active {
+    .reject-button-picture-active
 }
 
 .like-button-picture {

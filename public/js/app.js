@@ -1,6 +1,9 @@
 (function() {
     var appModule = angular.module("Swipe.Me", [])
         .controller("SwiperController", function($scope, $http, $window) {
+            // Indicates if a (dis)like request is underway so the user cannot
+            // (dis)like another picture during the request.
+            // Used for concurrency issues.
             var actionUnderway = false;
 
             // Indicates the maximum number of displayed pictures at the same time.
