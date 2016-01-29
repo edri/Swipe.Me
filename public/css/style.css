@@ -268,6 +268,12 @@ a:hover {
 .paperclip-transparent {
   opacity: 0.15;
 }
+.note-hover {
+  height: 300px;
+  height: 33.3vh;
+  width: 300px;
+  width: 33.3vh;
+}
 .note {
   background: #f7f381;
   /* Old browsers */
@@ -303,6 +309,12 @@ a:hover {
   width: 300px;
   width: 33.3vh;
 }
+.paperclip:hover ~ .note {
+  height: 300px;
+  height: 33.3vh;
+  width: 300px;
+  width: 33.3vh;
+}
 .note-transparent {
   opacity: 0.15;
 }
@@ -317,7 +329,8 @@ a:hover {
   white-space: nowrap;
   width: 100%;
 }
-.note:hover .hashtags-section {
+.note:hover .hashtags-section,
+.paperclip:hover ~ .note .hashtags-section {
   max-height: 263px;
   max-height: 28.2vh;
   overflow: auto;
