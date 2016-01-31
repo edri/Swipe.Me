@@ -178,7 +178,7 @@ a:hover {
   border: 1px solid black;
   border-radius: 3px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
-  min-height: calc(12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh);
+  min-height: calc(12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh));
   margin: 50px auto;
   margin: 5vh auto;
   min-width: 250px;
@@ -188,10 +188,15 @@ a:hover {
   transition: height 500ms, margin 500ms, opacity 500ms;
   width: 50%;
 }
+.header-small-sized {
+  height: calc(12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh) - (2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh)) + 1.1vh + 1.5vh);
+  min-height: calc(12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh) - (2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh)) + 1.1vh + 1.5vh);
+}
 .header-small {
-  height: calc(12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 1.1vh + 1.5vh);
   margin: 0 auto;
   opacity: 0.5;
+  height: calc(12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh) - (2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh)) + 1.1vh + 1.5vh);
+  min-height: calc(12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh) - (2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh)) + 1.1vh + 1.5vh);
 }
 .header-small:hover {
   opacity: 1;
@@ -200,9 +205,37 @@ a:hover {
   font-size: 1.5vh;
   height: auto;
 }
+.swiper-information {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.8vw;
+  line-height: 2.1vh;
+  height: calc(2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh);
+  margin-top: 2vh;
+  padding: 1.5vh;
+  text-align: left;
+}
+.swiper-information ol {
+  margin-bottom: 0;
+}
+.swiper-information li {
+  margin-top: 1vh;
+}
+.swiper-information li:nth-child(3) {
+  margin-top: calc(1vh - 0.3vh);
+}
+.swiper-information li u {
+  cursor: pointer;
+}
+.swiper-information-button {
+  font-size: 0.8vw;
+  margin-bottom: 0.3vh;
+}
+.swiper-information-image {
+  height: 0.8vw;
+}
 .error-content {
   font-size: 1.5vh;
-  padding: 2vh;
 }
 .btn-show-pics {
   border-radius: 4px !important;
@@ -215,17 +248,16 @@ a:hover {
 .result-information {
   font-size: 0;
   margin-top: 1.1vh;
-  transition: font-size 500ms;
 }
 .result-information-final {
   font-size: 1.5vh;
 }
 .swiper-logo {
   bottom: 125px;
-  bottom: 12.5vh;
+  bottom: 10vh;
   display: none;
   height: 500px;
-  height: calc(100vh - 6.5vh - 4.1vh - 5vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh) - 2 * 12.5vh);
+  height: calc(100vh - 6.5vh - 4.1vh - 5vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh)) - 2 * 10vh);
   left: 0;
   margin-left: 50%;
   position: absolute;
@@ -238,14 +270,14 @@ a:hover {
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
   display: none;
   height: 638px;
-  height: calc(100vh - 2vh - 1vh - 4.1vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 1.1vh + 1.5vh) - 2 * 5vh);
+  height: calc(100vh - 2vh - 1vh - 4.1vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh) - (2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh)) + 1.1vh + 1.5vh) - 2 * 5vh);
   margin: 50px 0 40px 50%;
   margin: 5vh 0 5vh 50%;
   position: absolute;
   transform: translateX(-50%);
   transition: transform 750ms, margin 200ms;
   width: 538px;
-  width: calc(100vh - 2vh - 1vh - 4.1vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 1.1vh + 1.5vh) - 2 * 5vh - 10.8vh);
+  width: calc(100vh - 2vh - 1vh - 4.1vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh) - (2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh)) + 1.1vh + 1.5vh) - 2 * 5vh - 10.8vh);
 }
 .picture-wrapper-liked {
   margin: 0 0 0 50%;
@@ -253,7 +285,7 @@ a:hover {
 }
 .picture-wrapper-rejected {
   margin: 0 0 0 50%;
-  transform: translateX(calc(-50vw - (100vh - 2vh - 1vh - 4.1vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 1.1vh + 1.5vh) - 2 * 5vh))) rotate(-90deg) !important;
+  transform: translateX(calc(-50vw - (100vh - 2vh - 1vh - 4.1vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh) - (2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh)) + 1.1vh + 1.5vh) - 2 * 5vh))) rotate(-90deg) !important;
 }
 .paperclip {
   height: 7.8vh;
@@ -352,11 +384,11 @@ a:hover {
   background-color: #E7DFDC;
   border-radius: 5px;
   height: 536px;
-  height: calc(100vh - 2vh - 1vh - 4.1vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 1.1vh + 1.5vh) - 2 * 5vh - 10.8vh - 2px);
+  height: calc(100vh - 2vh - 1vh - 4.1vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh) - (2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh)) + 1.1vh + 1.5vh) - 2 * 5vh - 10.8vh - 2px);
   padding: 30px;
   padding: 3vh;
   width: 536px;
-  width: calc(100vh - 2vh - 1vh - 4.1vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 1.1vh + 1.5vh) - 2 * 5vh - 10.8vh - 2px);
+  width: calc(100vh - 2vh - 1vh - 4.1vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh) - (2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh)) + 1.1vh + 1.5vh) - 2 * 5vh - 10.8vh - 2px);
 }
 .picture-buttons {
   height: 100px;
@@ -451,7 +483,7 @@ a:hover {
   border: 1px solid black;
   border-radius: 3px;
   bottom: 350px;
-  bottom: calc((100vh - 6.5vh - 4.1vh - 5vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh)) / 2);
+  bottom: calc((100vh - 6.5vh - 4.1vh - 5vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh))) / 2);
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
   font-size: 25px;
   font-size: 2vh;
@@ -473,7 +505,7 @@ a:hover {
   opacity: 1;
 }
 .arrows-info {
-  font-size: calc((100vh - 2vh - 1vh - 4.1vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 1.1vh + 1.5vh) - 2 * 5vh - 10.8vh) / 41);
+  font-size: calc((100vh - 2vh - 1vh - 4.1vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh) - (2vh + (2px + 2 * 1.5vh + 6 * 0.8vw + 3 * 1vh + 2 * 2.1vh)) + 1.1vh + 1.5vh) - 2 * 5vh - 10.8vh) / 41);
   left: 50%;
   position: absolute;
   top: 50%;

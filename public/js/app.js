@@ -139,6 +139,14 @@
                 }
             }
 
+            // Show default "cat" hashtag when the user clicked either on the "#cat"
+            // or "cat" label in the tutorial.
+            $scope.setDefaultHashtag = function() {
+                $scope.hashtag = "cat";
+                $scope.showPicsButtonDisabled = false;
+                $("#hashtagInput").focus();
+            }
+
             // Enables or disables the "Show me some pics!" button, depending on
             // whether the user entered a hashtag or not.
             $scope.validateHashtag = function(event) {
