@@ -6,22 +6,52 @@ block content
         section(ng-controller="SwiperController" ng-init='accessToken = "#{accessToken}"; applicationUrl = "#{applicationUrl}"')
             h1.title(ng-class='{"title-small": numberOfPictures > 0}') #{title}
             
-            .header(ng-class='{"header-small": numberOfPictures > 0}')
+            .header(ng-class='{"header-small-sized": numberOfMedia || numberOfMedia === 0 || numberOfPictures, "header-small": numberOfPictures > 0}')
                 .connected-content
                     .input-group.hashtag-input-group
                         span.input-group-addon #
                         input.form-control#hashtagInput(name='hashtag' ng-model='hashtag' ng-keyup='validateHashtag($event)' placeholder='Please enter a hashtag (e.g. "#pizza" or just "pizza")...' type='text')
                         .input-group-btn
                             button.btn.btn-swipe-me.btn-show-pics#btnShowPics(data-toggle='tooltip' data-placement='bottom' ng-click='showPics()' ng-disabled='showPicsButtonDisabled' title='Let me show you pictures related to the tags you entered. You can either like or reject them as your convinence!') {{showPicsButtonLabel}}
+                    // If number of media is set but not the number of pictures, the hashtag's searching show off no result.
+                    .swiper-information(ng-if='((!numberOfMedia && numberOfMedia != 0) && !numberOfPictures)')
+                        strong #{title}
+                        |  is a Instagram non-official application, which allows you to search pictures by a hashtag and then swipe them to either reject or like them : left swipe to reject, right swipe to like!
+                        ol
+                            li
+                                | First enter the hashtag you want (e.g. "
+                                u(ng-click="setDefaultHashtag()") #cat
+                                | " or just "
+                                u(ng-click="setDefaultHashtag()") cat
+                                | ").
+                            li 
+                                | Then press the 
+                                button.btn.btn-xs.btn-swipe-me.swiper-information-button(ng-click='showPics()' ng-disabled='showPicsButtonDisabled') Show me some pics!
+                                |  button to search for recent pictures related to the hashtag.
+                            li
+                                | You can finaly either reject ( 
+                                img.swiper-information-image(src='/img/cancel_filled.png')
+                                |  ) or like ( 
+                                img.swiper-information-image(src='/img/like_filled.png')    
+                                |  ) pictures by clicking the buttons (or the 
+                                span.glyphicon.glyphicon-arrow-left
+                                |  or 
+                                span.glyphicon.glyphicon-arrow-right
+                                |  arrows keys).
+                                br
+                                | Be careful about the pictures you (dis)liked, because they also will be 
+                                strong
+                                    u (dis)liked on Instagram
+                                | !
                     .panel.panel-danger.error-hashtag(ng-if='errorhashtag')
                         .panel-heading.error-content
-                            {{errorhashtag}}
-                    .result-information(ng-class='{"result-information-final": numberOfPictures}' ng-if='numberOfMedia && numberOfPictures')
+                            | {{errorhashtag}}
+                    .result-information(ng-class='{"result-information-final": numberOfPictures >= 0}' ng-if='numberOfMedia || numberOfPictures')
                         | There is {{numberOfMedia}} existing media for 
                         strong \#{{hashtagName}}
                         span(ng-if='numberOfPictures >= 0') , including 
                             strong {{numberOfPictures}}
-                            |  public one(s)
+                            |  recent one(s)
                         | .
                     .result-information(ng-class='{"result-information-final": numberOfMedia === 0}' ng-if='numberOfMedia === 0')
                         | Sorry there is no result for 
@@ -35,7 +65,7 @@ block content
                     img.paperclip(ng-class='{"paperclip-transparent": pic.isMouseOverPicture || pic.isMouseOverNote}' src='/img/paperclip.png')
                     .note(ng-class='{"note-transparent": pic.isMouseOverPicture}' ng-mouseleave='pic.isMouseOverNote = false' ng-mouseover='pic.isMouseOverNote = true')
                         .hashtags-section
-                            {{pic.description}}
+                            | {{pic.description}}
                         .author-section
                             hr.note-separation
                             strong 
@@ -44,14 +74,14 @@ block content
                     a(href='{{pic.url}}' target='_blank')
                         img.picture(alt='{{pic.description}}' ng-mouseleave='pic.isMouseOverPicture = false' ng-mouseover='pic.isMouseOverPicture = true' ng-src='{{pic.pictureUrl}}')
                     .picture-buttons
-                        .reject-button(data-toggle='tooltip' data-placement='top' id='reject-button{{$index + firstDisplayedPictureIndex}}' ng-click='reject()' title="Meh, I dont like it.")
+                        .reject-button(data-toggle='tooltip' data-placement='top' id='reject-button{{$index + firstDisplayedPictureIndex}}' ng-class='{"reject-button-active": pic.isPictureRejected}' ng-click='reject()' title="Meh, I dont like it.")
                         span.arrows-info
                             | Press 
                             span.glyphicon.glyphicon-arrow-left
                             |  or 
                             span.glyphicon.glyphicon-arrow-right
                             |  keys to quickly make a choice.
-                        .like-button(data-toggle='tooltip' data-placement='top' id='like-button{{$index + firstDisplayedPictureIndex}}' ng-class='{"like-button-active": pic.isPictureLiked || pic.alreadyLiked || currentPictureInLikeRequest}' ng-click='like()' title='Amazing, take my like!')
+                        .like-button(data-toggle='tooltip' data-placement='top' id='like-button{{$index + firstDisplayedPictureIndex}}' ng-class='{"like-button-active": (pic.isPictureLiked || pic.alreadyLiked) && !pic.isPictureRejected}' ng-click='like()' title='Amazing, take my like!')
                 .message-no-more-picture(ng-class='{"message-no-more-picture-visible": hashtagCopy}')
                     | Wow you just browsed all available pictures for \#{{hashtagCopy}}!
                     br

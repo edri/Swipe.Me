@@ -17,13 +17,20 @@
 @title-font-size: 4.1vh;
 @title-small-margin-top: 2vh;
 @title-small-margin-bottom: 1vh;
+@swiper-information-margin-top: 2vh;
+@swiper-information-padding: 1.5vh;
+@swiper-information-font-size: 0.8vw;
+@swiper-information-line-height: 2.1vh;
+@swiper-information-li-margin-top: 1vh;
+@swiper-information-button-margin-bottom: 0.3vh;
+@swiper-information-height: "2px + 2 * @{swiper-information-padding} + 6 * @{swiper-information-font-size} + 3 * @{swiper-information-li-margin-top} + 2 * @{swiper-information-line-height}";
 @header-font-size: 1.5vh;
 @header-margin: 5vh;
 @header-padding: 2vh;
-@header-height: "12px + 0.6vh + 2px + @{header-font-size} + 2px + 2 * @{header-padding}";
+@header-height: "12px + 0.6vh + 2px + @{header-font-size} + 2px + 2 * @{header-padding} + @{swiper-information-margin-top} + (@{swiper-information-height})";
 @result-information-margin: 1.1vh;
-@header-small-height: "@{header-height} + @{result-information-margin} + @{header-font-size}";
-@swiper-logo-margin: 12.5vh;
+@header-small-height: "@{header-height} - (@{swiper-information-margin-top} + (@{swiper-information-height})) + @{result-information-margin} + @{header-font-size}";
+@swiper-logo-margin: 10vh;
 @swiper-logo-height: "100vh - @{title-margin-top} - @{title-font-size} - @{header-margin} - (@{header-height}) - 2 * @{swiper-logo-margin}";
 @picture-wrapper-margin: 5vh;
 @picture-wrapper-height: "100vh - @{title-small-margin-top} - @{title-small-margin-bottom} - @{title-font-size} - (@{header-small-height}) - 2 * @{picture-wrapper-margin}";
@@ -261,10 +268,15 @@ a {
     width: 50%;
 }
 
-.header-small {
+.header-small-sized {
     height: ~"calc(@{header-small-height})";
+    min-height: ~"calc(@{header-small-height})";
+}
+
+.header-small {
     margin: 0 auto;
     opacity: 0.5;
+    .header-small-sized;
     &:hover {
         opacity: 1;
     }
@@ -275,9 +287,44 @@ a {
     height: auto;
 }
 
+.swiper-information {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: @swiper-information-font-size;
+    line-height: @swiper-information-line-height;
+    height: ~"calc(@{swiper-information-height})";
+    margin-top: @swiper-information-margin-top;
+    padding: @swiper-information-padding;
+    text-align: left;
+}
+
+.swiper-information ol {
+    margin-bottom: 0;
+}
+
+.swiper-information li {
+    margin-top: @swiper-information-li-margin-top;
+}
+
+.swiper-information li:nth-child(3) {
+    margin-top: ~"calc(@{swiper-information-li-margin-top} - @{swiper-information-button-margin-bottom})";
+}
+
+.swiper-information li u {
+    cursor: pointer;
+}
+
+.swiper-information-button {
+    font-size: @swiper-information-font-size;
+    margin-bottom: @swiper-information-button-margin-bottom;
+}
+
+.swiper-information-image {
+    height: @swiper-information-font-size;
+}
+
 .error-content {
     font-size: @header-font-size;
-    padding: 2vh;
 }
 
 .btn-show-pics {
@@ -293,7 +340,6 @@ a {
 .result-information {
     font-size: 0;
     margin-top: @result-information-margin;
-    transition: font-size 500ms;
 }
 
 .result-information-final {
@@ -355,6 +401,13 @@ a {
     opacity: 0.15;
 }
 
+.note-hover {
+    height: 300px;
+    height: 33.3vh;
+    width: 300px;
+    width: 33.3vh;
+}
+
 .note {
     background: #f7f381; /* Old browsers */
     background: -moz-linear-gradient(top, #fefdca 0%, #f7f381 100%); /* FF3.6-15 */
@@ -379,11 +432,12 @@ a {
     width: 22.2vh;
     z-index: 1;
     &:hover {
-        height: 300px;
-        height: 33.3vh;
-        width: 300px;
-        width: 33.3vh;
+        .note-hover;
     }
+}
+
+.paperclip:hover ~ .note {
+    .note-hover;
 }
 
 .note-transparent {
@@ -402,7 +456,7 @@ a {
     width: 100%;
 }
 
-.note:hover .hashtags-section {
+.note:hover .hashtags-section, .paperclip:hover ~ .note .hashtags-section {
     max-height: 263px;
     max-height: 28.2vh;
     overflow: auto;
@@ -453,16 +507,29 @@ a {
     width: @picture-button-height;
 }
 
-.reject-button {
-    background: rgba(0, 0, 0, 0) url("/img/cancel.png") no-repeat scroll;
+.reject-button-picture {
     background-position: 14px 14px;
     background-position: calc(~"(@{picture-button-height} - @{picture-button-background-size}) / 2 - 1px") calc(~"(@{picture-button-height} - @{picture-button-background-size}) / 2 - 1px");
     background-size: 40px 40px;
     background-size: @picture-button-background-size @picture-button-background-size;
+}
+
+.reject-button-picture-active {
+    background: rgba(0, 0, 0, 0.15) url("/img/cancel_filled.png") no-repeat scroll;
+    .reject-button-picture;
+}
+
+.reject-button {
+    background: rgba(0, 0, 0, 0) url("/img/cancel_not_filled.png") no-repeat scroll;
     float: left;
+    .reject-button-picture;
     &:hover {
-        background-color: rgba(0, 0, 0, 0.15);
+        .reject-button-picture-active
     }
+}
+
+.reject-button-active {
+    .reject-button-picture-active
 }
 
 .like-button-picture {

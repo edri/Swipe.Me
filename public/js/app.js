@@ -1,6 +1,9 @@
 (function() {
     var appModule = angular.module("Swipe.Me", [])
-        .controller("SwiperController", function($scope, $http, $window) {
+        .controller("SwiperController", function($scope, $http, $timeout, $window) {
+            // Indicates if a (dis)like request is underway so the user cannot
+            // (dis)like another picture during the request.
+            // Used for concurrency issues.
             var actionUnderway = false;
 
             // Indicates the maximum number of displayed pictures at the same time.
@@ -92,7 +95,7 @@
                 }
 
                 // Removes the picture after a while.
-                setTimeout(function() {
+                $timeout(function() {
                     $("#picture" + ($scope.firstDisplayedPictureIndex++)).remove();
 
                     // Resets values if this was the last value.
@@ -102,13 +105,10 @@
                         $scope.showPicsButtonDisabled = true;
                         $("#hashtagInput").focus();
                     }
-
-                    // Applys scope's changes because of the setTimeout function
-                    // (updates can't be automatically get by Angular in this case).
-                    $scope.$apply();
                 }, 850);
+
                 // Then show the new picture in the pictures stack.
-                setTimeout(function() {
+                $timeout(function() {
                     $("#picture" + ($scope.firstDisplayedPictureIndex + $scope.numberMaxPictures - 1)).fadeIn("fast");
                     $("#picture" + ($scope.firstDisplayedPictureIndex + $scope.numberMaxPictures - 1)).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 4) * Math.pow(-1, $scope.firstDisplayedPictureIndex + $scope.numberMaxPictures - 1)) + "deg)");
                     $("#reject-button" + ($scope.firstDisplayedPictureIndex + $scope.numberMaxPictures - 1)).tooltip();
@@ -137,6 +137,14 @@
                         alert("Something wrong happened, please retry in a while.");
                         break;
                 }
+            }
+
+            // Show default "cat" hashtag when the user clicked either on the "#cat"
+            // or "cat" label in the tutorial.
+            $scope.setDefaultHashtag = function() {
+                $scope.hashtag = "cat";
+                $scope.showPicsButtonDisabled = false;
+                $("#hashtagInput").focus();
             }
 
             // Enables or disables the "Show me some pics!" button, depending on
@@ -228,7 +236,7 @@
                                                             });
 
                                                             // Fades the first pictures in and rotate them after a while.
-                                                            setTimeout(function() {
+                                                            $timeout(function() {
                                                                 // Randomly rotates each picture but the first.
                                                                 for (var i = 0; i < $scope.numberMaxPictures; ++i) {
                                                                     $("#picture" + i).fadeIn("fast");
