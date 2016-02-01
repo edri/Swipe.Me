@@ -241,6 +241,7 @@ a:hover {
   height: calc(100vh - 2vh - 1vh - 4.1vh - (12px + 0.6vh + 2px + 1.5vh + 2px + 2 * 2vh + 1.1vh + 1.5vh) - 2 * 5vh);
   margin: 50px 0 40px 50%;
   margin: 5vh 0 5vh 50%;
+  max-width: 90%;
   position: absolute;
   transform: translateX(-50%);
   transition: transform 750ms, margin 200ms;
