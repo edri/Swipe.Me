@@ -9,10 +9,12 @@ block content
             .header(ng-class='{"header-small-sized": numberOfMedia || numberOfMedia === 0 || numberOfPictures, "header-small": numberOfPictures > 0}')
                 .connected-content
                     .input-group.hashtag-input-group
-                        span.input-group-addon #
-                        input.form-control#hashtagInput(name='hashtag' ng-model='hashtag' ng-keyup='validateHashtag($event)' placeholder='Please enter a hashtag (e.g. "#pizza" or just "pizza")...' type='text')
+                        span.input-group-addon.sharp-input #
+                        input.form-control.desktop#hashtagInput(name='hashtag' ng-model='hashtag' ng-keyup='validateHashtag($event)' placeholder='Please enter a hashtag (e.g. "#pizza" or just "pizza")...' type='text')
+                        input.form-control.mobile#hashtagInput(name='hashtag' ng-model='hashtag' ng-keyup='validateHashtag($event)' placeholder='Enter a hashtag (e.g. "pizza")' type='text')
                         .input-group-btn
-                            button.btn.btn-swipe-me.btn-show-pics#btnShowPics(data-toggle='tooltip' data-placement='bottom' ng-click='showPics()' ng-disabled='showPicsButtonDisabled' title='Let me show you pictures related to the tags you entered. You can either like or reject them as your convinence!') {{showPicsButtonLabel}}
+                            button.btn.btn-swipe-me.btn-show-pics.desktop#btnShowPics(data-toggle='tooltip' data-placement='bottom' ng-click='showPics()' ng-disabled='showPicsButtonDisabled' title='Let me show you pictures related to the tags you entered. You can either like or reject them as your convinence!') {{showPicsButtonLabel}}
+                            button.btn.btn-swipe-me.btn-show-pics.mobile#btnShowPics(ng-click='showPics()' ng-disabled='showPicsButtonDisabled') {{showPicsButtonLabel}}
                     // If number of media is set but not the number of pictures, the hashtag's searching show off no result.
                     .swiper-information(ng-if='((!numberOfMedia && numberOfMedia != 0) && !numberOfPictures)')
                         strong #{title}
@@ -25,9 +27,7 @@ block content
                                 u(ng-click="setDefaultHashtag()") cat
                                 | ").
                             li 
-                                | Then press the 
-                                button.btn.btn-xs.btn-swipe-me.swiper-information-button(ng-click='showPics()' ng-disabled='showPicsButtonDisabled') Show me some pics!
-                                |  button to search for recent pictures related to the hashtag.
+                                | Then press the button to search for recent pictures related to the hashtag.
                             li
                                 | You can finaly either reject ( 
                                 img.swiper-information-image(src='/img/cancel_filled.png')
@@ -58,7 +58,8 @@ block content
                         strong \#{{hashtagName}}
                         | ...
                         
-            img.swiper-logo#logo(src='/img/logo-no-text.png')
+            img.swiper-logo#logo(src='/img/logo-no-text.png')            
+            img.show-title-img#show-title-img(src='/img/show-title.svg')
                         
             section.pictures#pictures
                 .picture-wrapper(id='picture{{$index + firstDisplayedPictureIndex}}' ng-class='{"picture-wrapper-liked": pic.isPictureLiked, "picture-wrapper-rejected": pic.isPictureRejected}' ng-repeat='pic in pictures | limitTo: numberMaxPictures : firstDisplayedPictureIndex' ng-style='{"z-index": (numberOfPictures - $index)}')

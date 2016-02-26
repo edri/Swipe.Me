@@ -16,7 +16,7 @@
 
             // "Show me some pics!" button is disabled by default.
             $scope.showPicsButtonDisabled = true;
-            $scope.showPicsButtonLabel = "Show me some pics!";
+            $scope.showPicsButtonLabel = "Search!";
 
             // Occurs when the page successfully loaded.
             angular.element(document).ready(function () {
@@ -75,7 +75,7 @@
             // Reset the "Show me some pics!" button after the tag's search.
             function resetButton() {
                 $scope.showPicsButtonDisabled = false;
-                $scope.showPicsButtonLabel = "Show me some pics!";
+                $scope.showPicsButtonLabel = "Search!";
             }
 
             // Occured when a picture has been swiped (rejected or liker).
@@ -247,7 +247,9 @@
                                                                         $("#picture" + i).css("transform", "translateX(calc(-50%)) rotate(" + ((Math.random() * 2 + 2) * Math.pow(-1, i)) + "deg)");
                                                                     }
                                                                 }
-                                                            }, 400);
+
+                                                                $("#show-title-img").addClass("show-title-img-shown");
+                                                            }, 500);
 
                                                             $("#logo").fadeOut("fast");
                                                             $("#hashtagInput").blur();
