@@ -46,7 +46,7 @@ block content
                     .panel.panel-danger.error-hashtag(ng-if='errorhashtag')
                         .panel-heading.error-content
                             | {{errorhashtag}}
-                    .result-information(ng-class='{"result-information-final": numberOfPictures >= 0}' ng-if='numberOfMedia || numberOfPictures')
+                    .result-information(ng-class='{"result-information-final": numberOfPictures >= 0, "desktop": numberOfPictures > 0}' ng-if='numberOfMedia || numberOfPictures')
                         | There is {{numberOfMedia}} existing media for 
                         strong \#{{hashtagName}}
                         span(ng-if='numberOfPictures >= 0') , including 
@@ -59,10 +59,15 @@ block content
                         | ...
                         
             img.swiper-logo#logo(src='/img/logo-no-text.png')            
-            img.show-title-img#show-title-img(src='/img/show-title.svg')
+            img.show-title-img#show-title-img(ng-click='showTitle(true)' src='/img/show-title.svg')
                         
             section.pictures#pictures
                 .picture-wrapper(id='picture{{$index + firstDisplayedPictureIndex}}' ng-class='{"picture-wrapper-liked": pic.isPictureLiked, "picture-wrapper-rejected": pic.isPictureRejected}' ng-repeat='pic in pictures | limitTo: numberMaxPictures : firstDisplayedPictureIndex' ng-style='{"z-index": (numberOfPictures - $index)}')
+                    .result-information-mobile
+                        strong \#{{hashtagName}}
+                        | : {{numberOfMedia}} results, 
+                        strong {{numberOfPictures}}
+                        |  recent.
                     img.paperclip(ng-class='{"paperclip-transparent": pic.isMouseOverPicture || pic.isMouseOverNote}' src='/img/paperclip.png')
                     .note(ng-class='{"note-transparent": pic.isMouseOverPicture}' ng-mouseleave='pic.isMouseOverNote = false' ng-mouseover='pic.isMouseOverNote = true')
                         .hashtags-section

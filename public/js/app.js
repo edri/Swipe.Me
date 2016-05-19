@@ -47,9 +47,8 @@
                         $("#like-button" + $scope.currentPictureIndex).click();
                     }
                 }
-                // Simulate a click on the "Show me some pics!" button if the
-                // hashtag fields is selected and the user pressed the 'Enter'
-                // key.
+                // Simulate a click on the "Search!" button if the hashtag
+                // fields is selected and the user pressed the 'Enter' key.
                 else {
                     if (event.keyCode === 13) {
                         $("#btnShowPics").click();
@@ -147,12 +146,12 @@
                 $("#hashtagInput").focus();
             }
 
-            // Enables or disables the "Show me some pics!" button, depending on
-            // whether the user entered a hashtag or not.
+            // Enables or disables the "Search!" button, depending on whether
+            // the user entered a hashtag or not.
             $scope.validateHashtag = function(event) {
                 // The event is irrevelant for the 'Enter' key so we ignore it.
                 if (event.keyCode != 13) {
-                    if ($scope.hashtag) {
+                    if ($scope.hashtag && $scope.showPicsButtonLabel != "Searching...") {
                         resetButton();
                     }
                     else {
@@ -171,6 +170,7 @@
 
             // Show pics related to given tags.
             $scope.showPics = function() {
+                resetFields(true);
                 $scope.showPicsButtonDisabled = true;
                 $scope.showPicsButtonLabel = "Searching...";
                 // Reset errors.
@@ -403,6 +403,14 @@
                         cleanPictureSwitch();
                     }
                 }
+            }
+
+            $scope.showTitle = function() {
+                $("#show-title-img").removeClass("show-title-img-shown");
+
+                $timeout(function() {
+                    resetFields(true);
+                }, 500);
             }
         });
 })();
